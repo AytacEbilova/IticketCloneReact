@@ -152,10 +152,11 @@ const Home = () => {
       <section className={styles.promotion}>
         <div className="container">
           <a href="">
-        <img src="https://cdn.iticket.az/images/banners/icard-banner-desktop-03-2023.gif" alt="" />
-
+            <img
+              src="https://cdn.iticket.az/images/banners/icard-banner-desktop-03-2023.gif"
+              alt=""
+            />
           </a>
-
         </div>
       </section>
       <section className={styles.theatre}>
@@ -245,96 +246,143 @@ const Home = () => {
       </section>
 
       <section className={styles.kids}>
+        <div className="container">
+          <h3 className={styles.eventh3}>Kids</h3>
+          <Swiper
+            navigation={true}
+            modules={[Navigation, Autoplay]}
+            className="mySwiper"
+            slidesPerView={3}
+            spaceBetween={30}
+            autoplay={{ delay: 3000 }}
+          >
+            <SwiperSlide className={styles.cards}>
+              <div className={styles.card}>
+                <div className={styles.text}>
+                  <h3>21 June 2024</h3>
+                  <p>Time of Miracles</p>
+                </div>
+                <div className={styles.imgCont}>
+                  <img
+                    src="https://cdn.iticket.az/event/poster_bg/VmtWHbkPzm127SLg0l5GfMvhIljQ2u7tG5bCPQKy.jpg"
+                    alt=""
+                    className={styles.img1}
+                  />
+                  <img
+                    src="https://cdn.iticket.az/event/poster/ESpT0lZzufT8QDd4MhpmArPaQs1unRN6RiEj04uy.png"
+                    alt=""
+                    className={styles.img2}
+                  />
+                </div>
+                <span className={styles.bn}>
+                  from
+                  <span className={styles.price}> 20 ₼</span>
+                </span>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide className={styles.cards}>
+              <div className={styles.card}>
+                <div className={styles.text}>
+                  <h3>16 June 2024</h3>
+                  <p>Войцек</p>
+                </div>
+                <div className={styles.imgCont}>
+                  <img
+                    src="https://cdn.iticket.az/event/poster_bg/ElZvgVT94eHGY2ulctQwoiGNGEPVXFf5pM43iHqM.jpg"
+                    alt=""
+                    className={styles.img1}
+                  />
+                  <img
+                    src="https://cdn.iticket.az/event/poster/ouf5tEl4vt4zqJxen9GwA4KaJ4GyRsy9lt10w1RW.png"
+                    alt=""
+                    className={styles.img2}
+                  />
+                </div>
+                <span className={styles.bn}>
+                  from
+                  <span className={styles.price}> 30 ₼</span>
+                </span>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide className={styles.cards}>
+              <div className={styles.card}>
+                <div className={styles.text}>
+                  <h3>16 June 2024</h3>
+                  <p>Instinct</p>
+                </div>
+                <div className={styles.imgCont}>
+                  <img
+                    src="https://cdn.iticket.az/event/poster_bg/Y4Yn6EiwwHcQbmX9g0Jl6VGyR4fI7j3vXSMjUi4K.jpg"
+                    alt=""
+                    className={styles.img1}
+                  />
+                  <img
+                    src="https://cdn.iticket.az/event/poster/VIhH7NhYBZDn3FmMJOOczAwg0C1LlWTIjmA0yHAH.png"
+                    alt=""
+                    className={styles.img2}
+                  />
+                </div>
+                <span className={styles.bn}>
+                  from
+                  <span className={styles.price}> 30 ₼</span>
+                </span>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide className={styles.cards}>
+              <div className={styles.card}>
+                <div className={styles.text}>
+                  <h3>16 June 2024</h3>
+                  <p>Войцек</p>
+                </div>
+                <div className={styles.imgCont}>
+                  <img
+                    src="https://cdn.iticket.az/event/poster_bg/UJeq9yFo8iNnehyOhiFsiuzrkxKc02gbp6h79RQF.jpg"
+                    alt=""
+                    className={styles.img1}
+                  />
+                  <img
+                    src="https://cdn.iticket.az/event/poster/fcoI1bya3Q2D3u0Nv2AVE9wIDfGopZSS9zwdes9O.png"
+                    alt=""
+                    className={styles.img2}
+                  />
+                </div>
+                <span className={styles.bn}>
+                  from
+                  <span className={styles.price}> 30 ₼</span>
+                </span>
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      </section>
       <div className="container">
-        <h3 className={styles.eventh3}>Kids</h3>
-        <Swiper
-          navigation={true}
-          modules={[Navigation, Autoplay]}
-          className="mySwiper"
-          slidesPerView={3}
-          spaceBetween={30}
-          autoplay={{ delay: 3000 }}
-        >
-          <SwiperSlide className={styles.cards}>
-            <div className={styles.card}>
-              <div className={styles.text}>
-                <h3>21 June 2024</h3>
-                <p>Time of Miracles</p>
-              </div>
-              <div className={styles.imgCont}>
-                <img
-                  src="https://cdn.iticket.az/event/poster_bg/VmtWHbkPzm127SLg0l5GfMvhIljQ2u7tG5bCPQKy.jpg"
-                  alt="" className={styles.img1}
-                />
-                <img src="https://cdn.iticket.az/event/poster/ESpT0lZzufT8QDd4MhpmArPaQs1unRN6RiEj04uy.png" alt="" className={styles.img2}  />
-              </div>
-              <span className={styles.bn}>
-                from
-                <span className={styles.price}> 20 ₼</span>
-              </span>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className={styles.cards}>
-            <div className={styles.card}>
-              <div className={styles.text}>
-                <h3>16 June 2024</h3>
-                <p>Войцек</p>
-              </div>
-              <div className={styles.imgCont}>
-                <img
-                  src="https://cdn.iticket.az/event/poster_bg/ElZvgVT94eHGY2ulctQwoiGNGEPVXFf5pM43iHqM.jpg"
-                  alt=""className={styles.img1}
-                />
-                <img src="https://cdn.iticket.az/event/poster/ouf5tEl4vt4zqJxen9GwA4KaJ4GyRsy9lt10w1RW.png" alt=""  className={styles.img2}/>
-              </div>
-              <span className={styles.bn}>
-                from
-                <span className={styles.price}> 30 ₼</span>
-              </span>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className={styles.cards}>
-            <div className={styles.card}>
-              <div className={styles.text}>
-                <h3>16 June 2024</h3>
-                <p>Instinct</p>
-              </div>
-              <div className={styles.imgCont}>
-                <img src="https://cdn.iticket.az/event/poster_bg/Y4Yn6EiwwHcQbmX9g0Jl6VGyR4fI7j3vXSMjUi4K.jpg" alt="" className={styles.img1}/>
-                <img
-                  src="https://cdn.iticket.az/event/poster/VIhH7NhYBZDn3FmMJOOczAwg0C1LlWTIjmA0yHAH.png"
-                  alt="" className={styles.img2}
-                />
-              </div>
-              <span className={styles.bn}>
-                from
-                <span className={styles.price}> 30 ₼</span>
-              </span>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className={styles.cards}>
-            <div className={styles.card}>
-              <div className={styles.text}>
-                <h3>16 June 2024</h3>
-                <p>Войцек</p>
-              </div>
-              <div className={styles.imgCont}>
-                <img
-                  src="https://cdn.iticket.az/event/poster_bg/UJeq9yFo8iNnehyOhiFsiuzrkxKc02gbp6h79RQF.jpg"
-                  alt=""
-                  className={styles.img1}
-                />
-                <img src="https://cdn.iticket.az/event/poster/fcoI1bya3Q2D3u0Nv2AVE9wIDfGopZSS9zwdes9O.png" alt="" className={styles.img2} />
-              </div>
-              <span className={styles.bn}>
-                from
-                <span className={styles.price}> 30 ₼</span>
-              </span>
-            </div>
-          </SwiperSlide>
-        </Swiper>
+  <section className={styles.app}>
+    <div className={styles.content}>
+      <h2>FIND YOUR NEXT VISUAL JOURNEY</h2>
+      <p>
+        The iTicket.AZ application makes it easy and fast to purchase tickets for all kinds of events (to
+        <br /> the theater, to sport, concerts, exhibitions, etc.).
+      </p>
+      <div className={styles.links}>
+        <a href="">
+          <img src="https://iticket.az/images/android.png" alt="Android Download" className= {styles.media} />
+        </a>
+        <span></span>
+        <a href="">
+          <img src="https://iticket.az/images/ios.png" alt="iOS Download"className= {styles.media} />
+        </a>
       </div>
-    </section>
+    </div>
+    {/* <div className={styles["download-wrapper"]}>
+      <div className={styles.download}>
+        DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW 
+      </div>
+    </div> */}
+    <img src="https://cdn.iticket.az/images/app.png" alt="App Preview" className={styles.phone} />
+  </section>
+</div>
+
+
     </>
   );
 };

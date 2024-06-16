@@ -1,0 +1,25 @@
+.logo{
+    width: 130px;
+}
+nav{
+    flex-direction: column;
+    display: flex; 
+    a{
+        margin-bottom: .75rem;
+        color: rgb(100,100,100);
+    }
+}
+.social{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255,221,0);
+    flex-direction: row;
+    
+    gap: 30px;
+    a{
+        color: black;
+        font-size: 22px;
+        margin-top: 15px
+    }
+}
