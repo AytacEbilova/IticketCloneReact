@@ -1,5 +1,5 @@
 import styles from "../Footer/footer.module.scss";
-import { Col, Divider, Row } from "antd";
+import { Col, Row } from "antd";
 import { Link } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram,FaTiktok,FaLinkedinIn,FaTwitter } from "react-icons/fa";

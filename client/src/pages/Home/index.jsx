@@ -356,32 +356,42 @@ const Home = () => {
         </div>
       </section>
       <div className="container">
-  <section className={styles.app}>
-    <div className={styles.content}>
-      <h2>FIND YOUR NEXT VISUAL JOURNEY</h2>
-      <p>
-        The iTicket.AZ application makes it easy and fast to purchase tickets for all kinds of events (to
-        <br /> the theater, to sport, concerts, exhibitions, etc.).
-      </p>
-      <div className={styles.links}>
-        <a href="">
-          <img src="https://iticket.az/images/android.png" alt="Android Download" className= {styles.media} />
-        </a>
-        <span></span>
-        <a href="">
-          <img src="https://iticket.az/images/ios.png" alt="iOS Download"className= {styles.media} />
-        </a>
-      </div>
-    </div>
-    {/* <div className={styles["download-wrapper"]}>
-      <div className={styles.download}>
-        DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW 
-      </div>
-    </div> */}
-    <img src="https://cdn.iticket.az/images/app.png" alt="App Preview" className={styles.phone} />
-  </section>
+    <section className={styles.app}>
+        <div className={styles.content}>
+            <h2>FIND YOUR NEXT VISUAL JOURNEY</h2>
+            <p>
+                The iTicket.AZ application makes it easy and fast to purchase
+                tickets for all kinds of events (to
+                <br /> the theater, to sport, concerts, exhibitions, etc.).
+            </p>
+            <div className={styles.links}>
+                <a href="">
+                    <img
+                        src="https://iticket.az/images/android.png"
+                        alt="Android Download"
+                        className={styles.media}
+                    />
+                </a>
+                <span></span>
+                <a href="">
+                    <img
+                        src="https://iticket.az/images/ios.png"
+                        alt="iOS Download"
+                        className={styles.media}
+                    />
+                </a>
+            </div>
+        </div>
+        <div className={styles.download}>
+            DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW
+        </div>
+        <img
+            src="https://cdn.iticket.az/images/app.png"
+            alt="App Preview"
+            className={styles.phone}
+        />
+    </section>
 </div>
-
 
     </>
   );

@@ -329,93 +329,94 @@
         }
     }
 }
+
 @keyframes ticker {
     0% {
-      transform: translateY(100%);
+        transform: translate(-50%, -50%) rotate(-48deg);
     }
     100% {
-      transform: translateY(-100%);
+        transform: translate(50%, 50%) rotate(-48deg);
     }
-  }
-  
-  .app {
+}
+
+.app {
     background-color: rgb(255, 221, 0);
     border-radius: 1rem;
-    position: relative;
     padding: 7.25rem;
+    position: relative;
     margin-bottom: 70px;
-  
-    h2 {
-      margin-bottom: 1.25rem;
-      font-size: 1.875rem;
-      font-weight: 700;
-    }
-  
-    p {
-      margin-bottom: 1.25rem;
-    }
-  
-    .links {
-      display: flex;
-  
-      a {
-        padding: 0.5rem 1.25rem;
-        background-color: #000000;
-        border-radius: 1rem;
-  
-        .media {
-          display: block;
-          max-width: 100%;
+
+    .content {
+        position: relative;
+
+        h2 {
+            margin-bottom: 1.25rem;
+            font-size: 1.875rem;
+            font-weight: 700;
         }
-      }
-  
-      span {
-        border-right: 1px solid #ececec;
-        display: block;
-        height: 30px;
-        opacity: 0.3;
-        width: 0;
-      }
+
+        p {
+            margin-bottom: 1.25rem;
+        }
+
+        .links {
+            display: flex;
+
+            a {
+                padding: 0.5rem 1.25rem;
+                background-color: #000000;
+                border-radius: 1rem;
+
+                .media {
+                    display: block;
+                    max-width: 100%;
+                }
+            }
+
+            span {
+                border-right: 1px solid #ececec;
+                display: block;
+                height: 30px;
+                opacity: 0.3;
+                width: 0;
+            }
+        }
     }
-  
-    .download-wrapper {
-      overflow: hidden;
-      position: absolute;
-      top: 50%;
-      right: -140px; /* Adjusted to move it to the side */
-      width: 140px; /* Width of the text */
-      height: 100%;
-      transform: translateY(-50%);
-      
-    }
-  
+
     .download {
-    //   animation-direction: alternate;
-    //   animation-duration: 20s; 
-    //   animation-iteration-count: infinite;
-    //   animation-name: ticker;
-    //   animation-timing-function: linear;
-    //   background-color: #000000;
-    //   color: white;
-    //   font-size: 140px;
-    //   font-weight: 700;
-    //   width: 140px;
-    //   height: auto;
-    //   line-height: 140px;
-    //   pointer-events: none;
-    //   position: absolute;
-    //   white-space: nowrap;
-     
-    //   transform: rotate(-25deg);
+        background-color: #000;
+        color: #fff;
+        font-size: 1rem; 
+        font-weight: 700;
+        height: auto;
+        left: 50%;
+        top: 50%;
+        line-height: normal;
+        pointer-events: none;
+        position: absolute;
+        white-space: nowrap;
+        transform-origin: center;
+        transform: rotate(-48deg);
     }
-  
+
+    .download-text {
+        animation-direction: alternate;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        animation-name: ticker;
+        animation-timing-function: linear;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
     .phone {
-      bottom: 0;
-      position: absolute;
-      right: 90px;
-      max-width: 100%;
-      height: auto;
+        bottom: 0;
+        position: absolute;
+        right: 90px;
+        max-width: 100%;
+        height: auto;
     }
-  }
-  
-  
+}
+
+
