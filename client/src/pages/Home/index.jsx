@@ -244,7 +244,16 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
-
+      <section className={styles.promotion2}>
+        <div className="container">
+          <a href="">
+            <img
+              src="https://cdn.iticket.az/images/banners/epoint-january-2023-1250x122.gif"
+              alt=""
+            />
+          </a>
+        </div>
+      </section>
       <section className={styles.kids}>
         <div className="container">
           <h3 className={styles.eventh3}>Kids</h3>
@@ -365,26 +374,29 @@ const Home = () => {
                 <br /> the theater, to sport, concerts, exhibitions, etc.).
             </p>
             <div className={styles.links}>
-                <a href="">
+                <a href="" className={styles.imgSrc}>
+
                     <img
                         src="https://iticket.az/images/android.png"
                         alt="Android Download"
                         className={styles.media}
                     />
+                    <hr  className={styles.line}/>
+                    <img src="https://iticket.az/images/ios.png" alt="" />
                 </a>
                 <span></span>
-                <a href="">
+                {/* <a href="">
                     <img
                         src="https://iticket.az/images/ios.png"
                         alt="iOS Download"
                         className={styles.media}
                     />
-                </a>
+                </a> */}
             </div>
         </div>
-        <div className={styles.download}>
+        {/* <div className={styles.download}>
             DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW DOWNLOAD NOW
-        </div>
+        </div> */}
         <img
             src="https://cdn.iticket.az/images/app.png"
             alt="App Preview"

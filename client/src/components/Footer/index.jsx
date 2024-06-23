@@ -81,7 +81,6 @@ const Footer = () => {
                 <p>Support Service</p>
                 <a href="tel:+994124242424">+994124242424</a>
               </div>
-              <hr className={styles.hr} />
             </div>
           </Col>
           <Col className="gutter-row" span={6} xs={24} sm={24} md={12} lg={6}>
@@ -122,11 +121,10 @@ const Footer = () => {
               Electron, <br />
               Maestro & MasterCard
             </p>
-            <img src="https://iticket.az/images/cards.svg" alt="" />
+            <img src="https://iticket.az/images/cards.svg" alt=""  className={styles.visa}/>
           <nav className={styles.social}>
             <a href=""><FaFacebookF /></a>
             <a href=""><FaTwitter /></a>
-          
             <a href=""><FaInstagram/></a>
             <a href=""><FaTiktok /></a>
             <a href=""><FaLinkedinIn /></a>

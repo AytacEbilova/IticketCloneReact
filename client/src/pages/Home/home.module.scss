@@ -42,7 +42,7 @@
                 }
 
                 .text {
-                    transform: translateY(20px);
+                    transform: translateY(30px);
 
                     h3 {
                         color: black;
@@ -101,6 +101,10 @@
                 line-height: 28px;
                 font-family: "Poppins", sans-serif;
                 letter-spacing: 0;
+                
+            }
+            p{
+                color: #ececec;
             }
 
         }
@@ -140,7 +144,7 @@
                 }
 
                 .text {
-                    transform: translateY(20px);
+                    transform: translateY(30px);
 
                     h3 {
                         color: black;
@@ -213,10 +217,15 @@
         }
     }
 }
+.promotion2{
+    padding: 80px ;
+}
 
 .kids {
     background: linear-gradient(to bottom right, #fd0, #fd0 50%, transparent 0, transparent);
-    padding: 100px 0;
+   padding: 100px 0;
+    width: 100%;
+    height: auto;
 
     .eventh3 {
         font-weight: 600;
@@ -366,6 +375,12 @@
                 padding: 0.5rem 1.25rem;
                 background-color: #000000;
                 border-radius: 1rem;
+                display: flex;
+                .line{
+                    color: grey;
+                    margin: 5px;
+                    height: 40px;
+                }
 
                 .media {
                     display: block;
@@ -383,32 +398,7 @@
         }
     }
 
-    .download {
-        background-color: #000;
-        color: #fff;
-        font-size: 1rem; 
-        font-weight: 700;
-        height: auto;
-        left: 50%;
-        top: 50%;
-        line-height: normal;
-        pointer-events: none;
-        position: absolute;
-        white-space: nowrap;
-        transform-origin: center;
-        transform: rotate(-48deg);
-    }
 
-    .download-text {
-        animation-direction: alternate;
-        animation-duration: 10s;
-        animation-iteration-count: infinite;
-        animation-name: ticker;
-        animation-timing-function: linear;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
 
     .phone {
         bottom: 0;

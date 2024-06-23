@@ -59,24 +59,40 @@ header {
 
     .lastSect {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         align-items: center;
         color: white;
         font-size: 20px;
         font-weight: 300;
+      
         .person {
-            display: flex;
-            align-items: center;
-            background-color:#fd0;
-            border-radius: 50%;
-            padding: .75rem;
-            color: black;
+          display: flex;
+          align-items: center;
+          background-color: #fd0;
+          border-radius: 50%;
+          padding: 0.70rem;
+          color: black;
+          height: 40px;
+          text-align: center;
+          position: relative;
+          width: 100%;
         }
-        .icon{
+      
+        a {
+          color: white;
+          font-family: "Poppins", sans-serif;
+          cursor: pointer;
+      
+          .icon {
             width: 25px;
-            height: 25px;    
-
+            height: 25px;
+          }
         }
-
-    }
+      }
+      .loginBtn{
+        font-weight: 700;
+        color: black;
+        background-color: #fd0;
+      }
+      
 }
