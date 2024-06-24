@@ -1,28 +1,41 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "../Header/header.module.scss";
 import { CiHeart, CiSearch } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 import { IoPersonOutline } from "react-icons/io5";
-import { Button, Modal, Input, Form } from "antd";
+import { Button, Modal, Input, Form, message } from "antd";
 import { useFormik } from "formik";
-import userValidation from "../../validation/user.validation";
-import controller from "../../services/api/request";
+import userValidation from "../../validation/register.validation.js";
+import controller from "../../services/api/request.js";
 import { endpoints } from "../../services/api/constant.js";
 import User from "../../classes/user";
 import Swal from "sweetalert2"
+import axios from "axios";
+import loginValidation from "../../validation/login.validation.js";
 const Header = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [registeredEmail, setRegisteredEmail] = useState(null);
+  const navigate = useNavigate();
 
   const handleClick = (path) => {
     setActiveLink(path);
   };
+  const getUser = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  };
 
   const showModal = () => {
-    setIsModalOpen(true);
+    const user = getUser();
+    if (user) {
+      navigate('/profile');
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleCancel = () => {
@@ -47,7 +60,57 @@ const Header = () => {
     setActiveTab("login");
   };
 
+  const loginUser = async (email, password) => {
+    console.log('login started');
+    try {
+      const response = await controller.getAll(endpoints.users);
+      let users = response.data;
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user)); 
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login successful",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        setIsModalOpen(false);
+      } 
+      else {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: response.message,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "An error occurred during login",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+  };
+
   //formik
+  const loginFormik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: loginValidation,
+    onSubmit: async (values, actions) => {
+      await loginUser(values.email, values.password);
+      actions.resetForm();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -57,38 +120,58 @@ const Header = () => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema:userValidation,
-    onSubmit:async (values,actions) => {
-      const newUser=new User(
-          values.firstName,
-          values.lastName,
-          values.mobile,
-          values.email,
-          values.password
+    validationSchema: userValidation,
+    onSubmit: async (values, actions) => {
+      const newUser = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        mobile: values.mobile,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      };
 
-      )
-      const response = await controller.post(endpoints.users, newUser);
-      if (response.error) {
+      try {
+        console.log("Sending request to:", endpoints.users);
+        const response = await controller.post(endpoints.users, newUser);
+        console.log("Response received:", response);
+
+
+        if (response.response) {
+          Swal.fire({ 
+            position: "top-end",
+            icon: "error",
+            title: response.response.data.message,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Sign Up successfully",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          actions.resetForm();
+
+          setRegisteredEmail(values.email);
+          await loginUser(values.email, values.password);
+        }
+      } catch (error) {
+        console.error("Error during request:", error);
         Swal.fire({
           position: "top-end",
           icon: "error",
-          title: response.message,
+          title: "An error occurred",
           showConfirmButton: false,
           timer: 1000,
         });
-      } else{
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Sign Up successfully",
-          showConfirmButton: false,
-          timer: 1000,
-        })
-        actions.resetForm();
       }
     },
-    
   });
+
+
   return (
     <header>
       <div className="container">
@@ -219,50 +302,47 @@ const Header = () => {
               >
                 {activeTab === "login" && (
                   <Form
-                    name="login"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinishLogin}
-                    onFinishFailed={onFinishFailedLogin}
-                    onSubmit={formik.handleSubmit}
-                  >
-                    <Form.Item
-                      name="email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      type="email"
+                  name="login"
+                  initialValues={{ remember: true }}
+                  onFinish={loginFormik.handleSubmit}
+                  onFinishFailed={() => {
+                    message.error('Validation failed');
+                  }}
+                >
+             <Form.Item>
+                      <Input
+                        placeholder="Email"
+                        {...loginFormik.getFieldProps('email')}
+                      />
+                      {loginFormik.touched.email && loginFormik.errors.email && (
+                        <span style={{ color: 'red' }}>{loginFormik.errors.email}</span>
+                      )}
+                    </Form.Item>
+                  <Form.Item>
+                      <Input.Password
+                        placeholder="Password"
+                        {...loginFormik.getFieldProps('password')}
+                      />
+                      {loginFormik.touched.password && loginFormik.errors.password && (
+                        <span style={{ color: 'red' }}>{loginFormik.errors.password}</span>
+                      )}
+                    </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#fd0",
+                        color: "black",
+                      }}
                     >
-                      <Input placeholder="Email" />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your password!",
-                        },
-                      ]}
-                    >
-                      <Input.Password placeholder="Password" />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          width: "100%",
-                          backgroundColor: "#fd0",
-                          color: "black",
-                        }}
-                      >
-                        Log in
-                      </Button>
-                      New to iticket.az?{" "}
-                      <a onClick={switchToRegister}>Sign up now</a>
-                    </Form.Item>
-                  </Form>
+                      Log in
+                    </Button>
+                    New to iticket.az?{" "}
+                    <a onClick={switchToRegister}>Sign up now</a>
+                  </Form.Item>
+                </Form>
                 )}
 
                 {activeTab === "register" && (

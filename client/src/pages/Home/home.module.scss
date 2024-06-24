@@ -38,7 +38,7 @@
                 transform: translateY(-10px);
 
                 .imgCont {
-                    transform: translateY(-50px);
+                    transform: translateY(-70px);
                 }
 
                 .text {
@@ -47,7 +47,12 @@
                     h3 {
                         color: black;
                     }
-
+                 
+                    h4{
+                        color: #646464;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                    }
                     p {
                         color: #646464;
                     }
@@ -81,6 +86,7 @@
 
             .price {
                 margin-left: 5px;
+               
 
             }
 
@@ -105,6 +111,10 @@
             }
             p{
                 color: #ececec;
+            }
+            h4{
+                opacity: 0;
+                
             }
 
         }
@@ -144,7 +154,7 @@
                 }
 
                 .text {
-                    transform: translateY(30px);
+                    transform: translateY(20px);
 
                     h3 {
                         color: black;

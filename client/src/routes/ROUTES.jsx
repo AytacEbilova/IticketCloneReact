@@ -4,6 +4,7 @@ import Events from "../pages/Events";
 import Home from "../pages/Home";
 import Kids from "../pages/Kids";
 import MainRoot from "../pages/MainRoot";
+import Profile from "../pages/Profile";
 import Theatre from "../pages/Theatre";
 
 export const ROUTES = [
@@ -34,6 +35,10 @@ export const ROUTES = [
       {
         path: "dream-fest-2024",
         element: <DreamFest />,
+      },
+      {
+        path:"profile",
+        element:<Profile/>
       }
     ],
   },

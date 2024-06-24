@@ -79,6 +79,7 @@ const Home = () => {
                 <div className={styles.text}>
                   <h3>16 June 2024</h3>
                   <p>Instasamka & Moneyken (EGP Arena )</p>
+                  <h4>Dima Bilan</h4>
                 </div>
                 <div className={styles.imgCont}>
                   <img
@@ -97,6 +98,7 @@ const Home = () => {
                 <div className={styles.text}>
                   <h3>16 June 2024</h3>
                   <p>Instasamka & Moneyken (EGP Arena)</p>
+                  <h4>Dima Bilan</h4>
                 </div>
                 <div className={styles.imgCont}>
                   <img

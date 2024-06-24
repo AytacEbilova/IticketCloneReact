@@ -8,7 +8,6 @@ import { ROUTES } from './routes/ROUTES.jsx';
 const router=createBrowserRouter(ROUTES)
 function App() {
 
-
   return (
     <>
       <RouterProvider router={router} />
