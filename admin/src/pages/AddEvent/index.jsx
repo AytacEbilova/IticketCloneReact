@@ -1,0 +1,182 @@
+import React from "react";
+import { usePostEventsMutation } from "../../service/eventApi";
+import { useFormik } from "formik";
+import eventSchema from "../../validation/event.validation";
+import { Button, TextField, Typography, Box, Paper } from "@mui/material";
+import Swal from "sweetalert2";
+
+const AddEvent = () => {
+  const [postEvent] = usePostEventsMutation();
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      mainImg: "",
+      secondImg: "",
+      price: "",
+      description: "",
+      sellCount: "",
+      remainCount: "",
+      basketCount: "",
+      createdAt: "",
+      categoryName: "",
+      location: "",
+      language: "",
+    },
+    onSubmit: async (values, { resetForm }) => {
+      await postEvent(values).then(() => {
+        Swal.fire({
+          title: "Added successfully!",
+          text: "You clicked the button!",
+          icon: "success",
+        });
+        resetForm();
+      });
+    },
+    validationSchema: eventSchema,
+  });
+
+  return (
+    <Box
+      component={Paper}
+      elevation={3}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+        margin: "50px auto",
+       width: "800px",
+      }}
+    >
+      <Typography variant="h4" component="h1" gutterBottom>
+        Add New Event
+      </Typography>
+      <form
+        onSubmit={formik.handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          width: "100%",
+        }}
+      >
+        <TextField
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="title"
+          id="title"
+          type="text"
+          label="Event Title"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.title && (formik.errors.title)}
+          helperText={formik.touched.title && formik.errors.title}
+        />
+        <TextField
+          value={formik.values.mainImg}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="mainImg"
+          id="mainImg"
+          type="text"
+          label="Main Image URL"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.mainImg && (formik.errors.mainImg)}
+          helperText={formik.touched.mainImg && formik.errors.mainImg}
+        />
+        <TextField
+          value={formik.values.secondImg}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="secondImg"
+          id="secondImg"
+          type="text"
+          label="Second Image URL"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.secondImg && (formik.errors.secondImg)}
+          helperText={formik.touched.secondImg && formik.errors.secondImg}
+        />
+        <TextField
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="description"
+          id="description"
+          type="text"
+          label="Description"
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={3}
+          error={formik.touched.description && (formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
+        />
+        <TextField
+          value={formik.values.createdAt}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="createdAt"
+          id="createdAt"
+          type="date"
+          label="Created At"
+          variant="outlined"
+          fullWidth
+          InputLabelProps={{
+            shrink: true,
+          }}
+          error={formik.touched.createdAt && (formik.errors.createdAt)}
+          helperText={formik.touched.createdAt && formik.errors.createdAt}
+        />
+        <TextField
+          value={formik.values.categoryName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="categoryName"
+          id="categoryName"
+          type="text"
+          label="Category Name"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.categoryName && (formik.errors.categoryName)}
+          helperText={formik.touched.categoryName && formik.errors.categoryName}
+        />
+        <TextField
+          value={formik.values.location}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="location"
+          id="location"
+          type="text"
+          label="Location"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.location && (formik.errors.location)}
+          helperText={formik.touched.location && formik.errors.location}
+        />
+        <TextField
+          value={formik.values.language}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="language"
+          id="language"
+          type="text"
+          label="Language"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.language && (formik.errors.language)}
+          helperText={formik.touched.language && formik.errors.language}
+        />
+        <Button variant="contained" type="submit" color="primary" size="large">
+          Add Event
+        </Button>
+      </form>
+    </Box>
+  );
+};
+
+export default AddEvent;

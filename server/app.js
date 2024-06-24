@@ -64,9 +64,10 @@ const eventSchema=new Schema({
   sellCount:{type:Number,require:true},
   remainCount:{type:Number,require:true},
   basketCount:{type:Number,require:true},
-  createdAt:{type:Date,require:true}  ,
+  createdAt:{type:String,require:true}  ,
   categoryName:{type:String,require:true},
-  location:{type:String,require:true}
+  location:{type:String,require:true},
+  language:{type:String,require:true}
 })
 
 //models

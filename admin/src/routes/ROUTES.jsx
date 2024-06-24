@@ -1,12 +1,13 @@
 import Home from "../Home";
-import AddTicket from "../pages/AddTicket";
+import AddEvent from "../pages/AddEvent";
 import Categories from "../pages/Categories";
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
+import Events from "../pages/Events";
 import MainRoot from "../pages/MainRoot";
 import Reports from "../pages/Reports";
 import Settings from "../pages/Settings";
-import Tickets from "../pages/Tickets";
+
 
 export const ROUTES=[
     {
@@ -26,12 +27,12 @@ export const ROUTES=[
                 element: <Categories />,
             },
             {
-                path: "tickets",
-                element: <Tickets />,
+                path: "events",
+                element: <Events />,
             },
             {
                 path: "add-ticket",
-                element: <AddTicket />,
+                element: <AddEvent />,
             },
             {
                 path: "customers",

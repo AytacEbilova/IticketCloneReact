@@ -9,9 +9,8 @@ import { useFormik } from "formik";
 import userValidation from "../../validation/register.validation.js";
 import controller from "../../services/api/request.js";
 import { endpoints } from "../../services/api/constant.js";
-import User from "../../classes/user";
 import Swal from "sweetalert2"
-import axios from "axios";
+
 import loginValidation from "../../validation/login.validation.js";
 const Header = () => {
   const location = useLocation();

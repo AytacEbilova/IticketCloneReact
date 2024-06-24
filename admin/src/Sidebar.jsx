@@ -28,8 +28,8 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-          <Link to="/tickets">
-            <BsFillArchiveFill className='icon' /> Tickets
+          <Link to="/events">
+            <BsFillArchiveFill className='icon' /> Events
           </Link>
         </li>
         <li className='sidebar-list-item'>
@@ -44,7 +44,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
         </li>
         <li className='sidebar-list-item'>
           <Link to="/add-ticket">
-            <BsListCheck className='icon' /> Add Tickets
+            <BsListCheck className='icon' /> Add Event
           </Link>
         </li>
         <li className='sidebar-list-item'>

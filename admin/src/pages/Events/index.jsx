@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { Button, Space, Table, Tooltip } from "antd";
 import { useParams } from "react-router-dom";
-
+import {
+  useDeleteEventsMutation,
+  useGetEventsQuery,
+} from "../../service/eventApi";
 import Swal from "sweetalert2";
-import { useDeleteUsersMutation, useGetUsersQuery } from '../../service/userApi';
-const Customers = () => {
+
+const Events = () => {
   const { id } = useParams();
-  const { data: users, refetch } = useGetUsersQuery();
-  const [deleteUser] = useDeleteUsersMutation(id);
+  const { data: events, refetch } = useGetEventsQuery();
+  const [deleteEvent] = useDeleteEventsMutation(id);
+
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const handleChange = (pagination, filters, sorter) => {
@@ -23,32 +27,74 @@ const Customers = () => {
     setSortedInfo({});
   };
 
-
-
-
   const columns = [
     {
-      title: "First Name",
-      dataIndex: "firstName",
-      sorter: (a, b) => a.firstName.localeCompare(b.firstName),
-
+      title: "Image",
+      dataIndex: "mainImg",
+      render: (text, record) => {
+        return (
+          <img src={record.mainImg} alt={text} width={100} height={100} />
+        );
+      },
     },
     {
-      title: "Last Name",
-      dataIndex: "lastName",
-      sorter: (a, b) => a.lastName.localeCompare(b.lastName)
+      title: "Image",
+      dataIndex: "secondImg",
+      render: (text, record) => {
+        return (
+          <img src={record.secondImg} alt={text} width={100} height={100} />
+        );
+      },
     },
     {
-      title: "Phone Number",
-      dataIndex: "mobile",
+      title: "Title",
+      dataIndex: "title",
+      sorter: (a, b) => a.title.toLocaleCompare(b.title),
+      sortOrder: sortedInfo.columnKey === "title" ? sortedInfo.order : null,
+      ellipsis: true,
+      render: (element) => (
+        <Tooltip title={element}>
+          <span>{element.slice(0, 50)}...</span>
+        </Tooltip>
+      ),
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Price",
+      dataIndex: "price",
+      sorter: (a, b) => a.price - b.price,
     },
     {
-      title: "Password",
-      dataIndex: "password",
+      title: "Category name",
+      dataIndex: "categoryName",
+    },
+    {
+      title: "sellCount",
+      dataIndex: "sellCount",
+    },
+    {
+      title: "Remain Count",
+      dataIndex: "remainCount",
+    },
+    {
+      title: "Basket Count",
+      dataIndex: "basketCount",
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+    },
+    // {
+    //   title: 'Language',
+    //   dataIndex: 'language',
+    // },
+    {
+      title: "Description",
+      dataIndex: "description",
+      render: (element) => (
+        <Tooltip title={element}>
+          <span>{element.slice(0, 50)}...</span>
+        </Tooltip>
+      ),
     },
     {
       title: "Action",
@@ -68,7 +114,7 @@ const Customers = () => {
                 confirmButtonText: "Yes, delete it!",
               }).then(async (result) => {
                 if (result.isConfirmed) {
-                  await deleteUser(record._id);
+                  await deleteEvent(record._id);
                   refetch();
                   Swal.fire({
                     title: "Deleted!",
@@ -85,9 +131,10 @@ const Customers = () => {
       },
     },
   ];
+
   return (
     <div>
-       <Space
+      <Space
         style={{
           marginBottom: 16,
         }}
@@ -97,11 +144,11 @@ const Customers = () => {
       </Space>
       <Table
         columns={columns}
-        dataSource={users?.data}
+        dataSource={events?.data}
         onChange={handleChange}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Customers
+export default Events;
