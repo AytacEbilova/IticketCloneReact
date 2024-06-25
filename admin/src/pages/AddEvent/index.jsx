@@ -1,37 +1,45 @@
-import React from "react";
-import { usePostEventsMutation } from "../../service/eventApi";
-import { useFormik } from "formik";
-import eventSchema from "../../validation/event.validation";
-import { Button, TextField, Typography, Box, Paper } from "@mui/material";
-import Swal from "sweetalert2";
+import React from 'react';
+import { usePostEventsMutation } from '../../service/eventApi';
+import { useFormik } from 'formik';
+import eventSchema from '../../validation/event.validation';
+import { Button, TextField, Typography, Box, Paper } from '@mui/material';
+import Swal from 'sweetalert2';
 
 const AddEvent = () => {
   const [postEvent] = usePostEventsMutation();
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      mainImg: "",
-      secondImg: "",
-      price: "",
-      description: "",
-      sellCount: "",
-      remainCount: "",
-      basketCount: "",
-      createdAt: "",
-      categoryName: "",
-      location: "",
-      language: "",
+      title: '',
+      mainImg: '',
+      secondImg: '',
+      price: '',
+      description: '',
+      sellCount: '',
+      remainCount: '',
+      basketCount: '',
+      createdAt: '',
+      categoryName: '',
+      location: '',
+      language: '',
     },
     onSubmit: async (values, { resetForm }) => {
-      await postEvent(values).then(() => {
+      try {
+        await postEvent(values).unwrap();
         Swal.fire({
-          title: "Added successfully!",
-          text: "You clicked the button!",
-          icon: "success",
+          title: 'Added successfully!',
+          text: 'You clicked the button!',
+          icon: 'success',
         });
         resetForm();
-      });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'There was an issue adding the event.',
+          icon: 'error',
+        });
+        console.error('Failed to add event:', error);
+      }
     },
     validationSchema: eventSchema,
   });
@@ -41,13 +49,13 @@ const AddEvent = () => {
       component={Paper}
       elevation={3}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "20px",
-        margin: "50px auto",
-       width: "800px",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        margin: '50px auto',
+        width: '800px',
       }}
     >
       <Typography variant="h4" component="h1" gutterBottom>
@@ -56,10 +64,10 @@ const AddEvent = () => {
       <form
         onSubmit={formik.handleSubmit}
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          width: "100%",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          width: '100%',
         }}
       >
         <TextField
@@ -72,7 +80,7 @@ const AddEvent = () => {
           label="Event Title"
           variant="outlined"
           fullWidth
-          error={formik.touched.title && (formik.errors.title)}
+          error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
@@ -85,7 +93,7 @@ const AddEvent = () => {
           label="Main Image URL"
           variant="outlined"
           fullWidth
-          error={formik.touched.mainImg && (formik.errors.mainImg)}
+          error={formik.touched.mainImg && Boolean(formik.errors.mainImg)}
           helperText={formik.touched.mainImg && formik.errors.mainImg}
         />
         <TextField
@@ -98,7 +106,7 @@ const AddEvent = () => {
           label="Second Image URL"
           variant="outlined"
           fullWidth
-          error={formik.touched.secondImg && (formik.errors.secondImg)}
+          error={formik.touched.secondImg && Boolean(formik.errors.secondImg)}
           helperText={formik.touched.secondImg && formik.errors.secondImg}
         />
         <TextField
@@ -113,7 +121,7 @@ const AddEvent = () => {
           fullWidth
           multiline
           rows={3}
-          error={formik.touched.description && (formik.errors.description)}
+          error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
@@ -129,7 +137,7 @@ const AddEvent = () => {
           InputLabelProps={{
             shrink: true,
           }}
-          error={formik.touched.createdAt && (formik.errors.createdAt)}
+          error={formik.touched.createdAt && Boolean(formik.errors.createdAt)}
           helperText={formik.touched.createdAt && formik.errors.createdAt}
         />
         <TextField
@@ -142,7 +150,7 @@ const AddEvent = () => {
           label="Category Name"
           variant="outlined"
           fullWidth
-          error={formik.touched.categoryName && (formik.errors.categoryName)}
+          error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
           helperText={formik.touched.categoryName && formik.errors.categoryName}
         />
         <TextField
@@ -155,7 +163,7 @@ const AddEvent = () => {
           label="Location"
           variant="outlined"
           fullWidth
-          error={formik.touched.location && (formik.errors.location)}
+          error={formik.touched.location && Boolean(formik.errors.location)}
           helperText={formik.touched.location && formik.errors.location}
         />
         <TextField
@@ -168,7 +176,7 @@ const AddEvent = () => {
           label="Language"
           variant="outlined"
           fullWidth
-          error={formik.touched.language && (formik.errors.language)}
+          error={formik.touched.language && Boolean(formik.errors.language)}
           helperText={formik.touched.language && formik.errors.language}
         />
         <Button variant="contained" type="submit" color="primary" size="large">

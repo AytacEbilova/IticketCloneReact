@@ -1,34 +1,32 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const eventApi = createApi({
   reducerPath: 'eventApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/' }),
   endpoints: (builder) => ({
     getEvents: builder.query({
-      query: () => `events`,
+      query: () => 'events',
     }),
     getOneEvent: builder.query({
-        query: (id) => `events/${id}`,
+      query: (id) => `events/${id}`,
+    }),
+    deleteEvents: builder.mutation({
+      query: (id) => ({
+        url: `events/${id}`,
+        method: 'DELETE',
       }),
-      deleteEvents: builder.mutation({
-        query: (id) => ({
-            url:`events/${id}`,
-            method:'DELETE'
-        }),
+    }),
+    postEvents: builder.mutation({
+      query: (newEvent) => ({
+        url: 'events',
+        method: 'POST',
+        body: newEvent,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
-      postEvents: builder.mutation({
-        query: (newEvent) => ({
-            url:`events`,
-            method:'POST',
-            body:newEvent,
-            headers:{
-                "Content-type":'application/json'
-            }
-        }),
-      }),
+    }),
   }),
-})
+});
 
-
-export const { useGetEventsQuery,useDeleteEventsMutation,useGetOneEventQuery,usePostEventsMutation } = eventApi
+export const { useGetEventsQuery, useDeleteEventsMutation, useGetOneEventQuery, usePostEventsMutation } = eventApi;
