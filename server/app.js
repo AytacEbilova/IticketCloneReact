@@ -2,11 +2,13 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt=require('bcrypt');
 app.use(bodyParser.json());
 app.use(cors());
 const mongoose = require("mongoose");
 require("dotenv").config();
 const Joi = require('joi');
+const { default: sendVerifyEmail } = require("./helpers/sendMail");
 
 const PORT = process.env.PORT || 3000;
 const DB = process.env.DB_URL;
@@ -55,7 +57,6 @@ const loginSchema = new mongoose.Schema({
     password:{type:String,required:true}
 })
 const eventSchema=new Schema({
-  //title,mainImg,secondImg,price,description,sellCount,remainCount,basketCount,createdAt,categoryName,location
   title:{type:String,require:true},
   mainImg:{type:String,require:true},
   secondImg:{type:String,require:true},
@@ -68,13 +69,20 @@ const eventSchema=new Schema({
   categoryName:{type:String,require:true},
   location:{type:String,require:true},
   language:{type:String,require:true}
-})
+});
+
+const ticketSchema=new Schema({
+ eventId:[{ type: mongoose.Schema.Types.ObjectId, ref: "Events" }],
+ customerId:[{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }]
+});
+
+
 
 //models
 const Users = mongoose.model("Users", usersSchema);
 const Login=mongoose.model("Login",loginSchema)
 const Events=mongoose.model("Events",eventSchema)
-
+const Tickets=mongoose.model("Tickets",ticketSchema)
 
 //user crud
 app.get("/users", async (req, res) => {
@@ -155,6 +163,8 @@ app.post("/users", async (req, res) => {
       return res.status(400).send({ error: true, message: "Email already in use" });
     }
 
+    //send email
+    sendVerifyEmail(newUser.email,);
     const newUser = new Users(req.body);
     await newUser.save();
     console.log("User created successfully:", newUser);
@@ -227,7 +237,7 @@ app.get("/events/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const event = await Events.findById(id);
-    if (product) {
+    if (event) {
       res.status(200).send({
         message: "success",
         data: event,
@@ -267,6 +277,95 @@ app.post("/events", async (req, res) => {
     await newEvent.save();
     console.log("Event created successfully:", newEvent);
     res.status(201).send({ error: false, message: "Event created", newEvent });
+  } catch (error) {
+    console.error("Error saving user:", error);
+    res.status(500).send({ error: true, message: error.message });
+  }
+});
+app.put("/events",async(req,res)=>{
+  const { id } = req.params;
+  try {
+    await Events.findByIdAndUpdate(id, req.body);
+    const updated = await Events.findById(id);
+    res.send({
+      message: "updated",
+      response: updated,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error,
+      error: true,
+    });
+  }
+})
+
+
+
+//ticket crud
+app.get("/tickets", async (req, res) => {
+  try {
+    const tickets = await Tickets.find({});
+    if (tickets.length > 0) {
+      res.status(200).send({
+        message: "success",
+        data: tickets,
+      });
+    } else {
+      res.status(204).send({
+        message: "empty data",
+        data: null,
+      });
+    }
+  } catch (error) {
+    res.status(204).send({
+      message: error.message,
+      error: true,
+    });
+  }
+});
+app.get("/tickets/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ticket = await Tickets.findById(id);
+    if (ticket) {
+      res.status(200).send({
+        message: "success",
+        data: ticket,
+      });
+    } else {
+      res.status(204).send({
+        message: "empty data",
+        data: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      error: true,
+    });
+  }
+});
+app.delete("/tickets/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleteTicket = await Tickets.findByIdAndDelete(id);
+    res.status(200).send({
+      message: "delete",
+      deleteEvent:deleteTicket ,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      error: true,
+    });
+  }
+});
+app.post("/tickets", async (req, res) => {
+  try {
+    const newTicket = new Tickets(req.body);
+    await newTicket.save();
+    console.log("Event created successfully:", newTicket);
+    res.status(201).send({ error: false, message: "Event created", newTicket });
   } catch (error) {
     console.error("Error saving user:", error);
     res.status(500).send({ error: true, message: error.message });

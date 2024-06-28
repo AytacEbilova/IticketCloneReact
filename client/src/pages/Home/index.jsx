@@ -4,8 +4,34 @@ import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import * as React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+
 
 const Home = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/events');
+        setEvents(response.data.data);
+      } catch (err) {
+        console.log(err)
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+console.log(events);
+  
+  
+
   return (
     <>
       <section className={styles.sect1}>
@@ -65,92 +91,49 @@ const Home = () => {
         </div>
       </section>
       <section className={styles.sect2}>
-        <div className="container">
-          <h3 className={styles.eventh3}>Popular Events</h3>
-          <Swiper
-            navigation={true}
-            modules={[Navigation, Autoplay]}
-            className="mySwiper"
-            slidesPerView={3}
-            autoplay={{ delay: 3000 }}
-          >
+      <div className="container">
+        <h3 className={styles.eventh3}>Popular Events</h3>
+        <Swiper
+          navigation={true}
+          modules={[Navigation, Autoplay]}
+          className="mySwiper"
+          slidesPerView={3}
+          autoplay={{ delay: 3000 }}
+        >
+         {events?.filter(event=>event.categoryName==="concert").map(
+          event=>(
             <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instasamka & Moneyken (EGP Arena )</p>
-                  <h4>Dima Bilan</h4>
-                </div>
-                <div className={styles.imgCont}>
+            <div className={styles.card}>
+              <div className={styles.text}>
+                <h3>{event.createdAt}</h3>
+                <p>{event.location}</p>
+                <h4>{event.title}</h4>
+              </div>
+              <div className={styles.imgCont}>
                   <img
-                    src="https://cdn.iticket.az/event/poster_bg/b7TUv3Mt3y3TgycUACDKh7Ky5MCZWkN7tDNvImgF.jpg"
+                  src={event.mainImg}
                     alt=""
+                    className={styles.img1}
+                  />
+                  <img
+                    src={event.secondImg}
+                    alt=""
+                    className={styles.img2}
                   />
                 </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 20 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instasamka & Moneyken (EGP Arena)</p>
-                  <h4>Dima Bilan</h4>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/hF1nxy92rtGePAlH7kNPo8fA4w1xbwuyZYDekBK9.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instasamka & Moneyken (EGP Arena)</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/waJkxaQODmz4fGS8qPYNsM8DrYSYZwliuVwgaslo.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instasamka & Moneyken (EGP Arena)</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/7wXvdsRP1P4Obb1Lr2psnWZfubSv8QNctTAc8dSk.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </section>
+              <span className={styles.bn}>
+                from
+                <span className={styles.price}> {event.price}</span>
+              </span>
+            </div>
+          </SwiperSlide>
+          )
+         )}
+         
+
+        </Swiper>
+      </div>
+    </section>
       <section className={styles.promotion}>
         <div className="container">
           <a href="">
@@ -162,90 +145,45 @@ const Home = () => {
         </div>
       </section>
       <section className={styles.theatre}>
-        <div className="container">
-          <h3 className={styles.eventh3}>Theatre</h3>
-          <Swiper
-            navigation={true}
-            modules={[Navigation, Autoplay]}
-            className="mySwiper"
-            slidesPerView={3}
-            autoplay={{ delay: 3000 }}
-          >
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>21 June 2024</h3>
-                  <p>Do not go without saying goodbye</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/d4gyaCv3hzl37RVnBYmqQ9CpvvfmcXYlXtWsewgD.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 20 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Войцек</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster/p67XpyJukm1I9a4oD3VTu1k2thl2EXlfSRu792Yf.png"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instinct</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/HG1P891QwLb7RWpjUD1SP6mc5kUoBAbRtiDLAoJs.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Войцек</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/jIIDTvedg1i3a8hgT8VOhNOLE3AhrR71eyjjQf0G.jpg"
-                    alt=""
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </section>
+  <div className="container">
+    <h3 className={styles.eventh3}>Theatre</h3>
+    <Swiper
+      navigation={true}
+      modules={[Navigation, Autoplay]}
+      className="mySwiper"
+      slidesPerView={3}
+      autoplay={{ delay: 3000 }}
+    >
+      {events?.filter(event => event.categoryName === "theatre").map(event => (
+        <SwiperSlide className={styles.cards} key={event._id}>
+          <div className={styles.card}>
+            <div className={styles.text}>
+              <h3>{event.createdAt}</h3>
+              <p>{event.title}</p>
+            </div>
+            <div className={styles.imgCont}>
+              <img
+                src={event.mainImg}
+                alt=""
+                className={styles.img1}
+              />
+              <img
+                src={event.secondImg}
+                alt=""
+                className={styles.img2}
+              />
+            </div>
+            <span className={styles.bn}>
+              from
+              <span className={styles.price}> {event.price}</span>
+            </span>
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </div>
+</section>
+
       <section className={styles.promotion2}>
         <div className="container">
           <a href="">
@@ -267,102 +205,34 @@ const Home = () => {
             spaceBetween={30}
             autoplay={{ delay: 3000 }}
           >
+            {events?.filter(event=>event.categoryName==="kids").map(event=>(
             <SwiperSlide className={styles.cards}>
               <div className={styles.card}>
                 <div className={styles.text}>
-                  <h3>21 June 2024</h3>
-                  <p>Time of Miracles</p>
+                  <h3>{event.createdAt}</h3>
+                  <p>{event.title}</p>
                 </div>
                 <div className={styles.imgCont}>
                   <img
-                    src="https://cdn.iticket.az/event/poster_bg/VmtWHbkPzm127SLg0l5GfMvhIljQ2u7tG5bCPQKy.jpg"
+                    src={event.mainImg}
                     alt=""
                     className={styles.img1}
                   />
                   <img
-                    src="https://cdn.iticket.az/event/poster/ESpT0lZzufT8QDd4MhpmArPaQs1unRN6RiEj04uy.png"
+                    src={event.secondImg}
                     alt=""
                     className={styles.img2}
                   />
                 </div>
                 <span className={styles.bn}>
                   from
-                  <span className={styles.price}> 20 ₼</span>
+                  <span className={styles.price}> {event.price}</span>
                 </span>
               </div>
             </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Войцек</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/ElZvgVT94eHGY2ulctQwoiGNGEPVXFf5pM43iHqM.jpg"
-                    alt=""
-                    className={styles.img1}
-                  />
-                  <img
-                    src="https://cdn.iticket.az/event/poster/ouf5tEl4vt4zqJxen9GwA4KaJ4GyRsy9lt10w1RW.png"
-                    alt=""
-                    className={styles.img2}
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Instinct</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/Y4Yn6EiwwHcQbmX9g0Jl6VGyR4fI7j3vXSMjUi4K.jpg"
-                    alt=""
-                    className={styles.img1}
-                  />
-                  <img
-                    src="https://cdn.iticket.az/event/poster/VIhH7NhYBZDn3FmMJOOczAwg0C1LlWTIjmA0yHAH.png"
-                    alt=""
-                    className={styles.img2}
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.cards}>
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>16 June 2024</h3>
-                  <p>Войцек</p>
-                </div>
-                <div className={styles.imgCont}>
-                  <img
-                    src="https://cdn.iticket.az/event/poster_bg/UJeq9yFo8iNnehyOhiFsiuzrkxKc02gbp6h79RQF.jpg"
-                    alt=""
-                    className={styles.img1}
-                  />
-                  <img
-                    src="https://cdn.iticket.az/event/poster/fcoI1bya3Q2D3u0Nv2AVE9wIDfGopZSS9zwdes9O.png"
-                    alt=""
-                    className={styles.img2}
-                  />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> 30 ₼</span>
-                </span>
-              </div>
-            </SwiperSlide>
+
+            ))}
+        
           </Swiper>
         </div>
       </section>

@@ -5,7 +5,7 @@ const eventSchema=Yup.object().shape({
     mainImg: Yup.mixed().required('A file is required'),
     secondImg: Yup.mixed().required('A file is required'),
     price: Yup.number().required(),
-    description:Yup.string().min(10).max(400).required(),
+    description:Yup.string().min(10).max(50).required(),
     sellCount:Yup.number().required(),
     remainCount:Yup.number().required(),
     basketCount:Yup.number().required(),

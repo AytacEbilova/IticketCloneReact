@@ -1,47 +1,46 @@
-import React from 'react';
-import { usePostEventsMutation } from '../../service/eventApi';
-import { useFormik } from 'formik';
-import eventSchema from '../../validation/event.validation';
-import { Button, TextField, Typography, Box, Paper } from '@mui/material';
-import Swal from 'sweetalert2';
+import React from "react";
+import { useFormik } from "formik";
+import eventSchema from "../../validation/event.validation";
+import { Button, TextField, Typography, Box, Paper } from "@mui/material";
+import Swal from "sweetalert2";
+import {
+  useGetEventsQuery,
+  usePostEventsMutation,
+} from "../../service/eventApi";
 
 const AddEvent = () => {
-  const [postEvent] = usePostEventsMutation();
-
+    const [postEvent] = usePostEventsMutation();
+   const{data,refetch}=useGetEventsQuery();
   const formik = useFormik({
     initialValues: {
-      title: '',
-      mainImg: '',
-      secondImg: '',
-      price: '',
-      description: '',
-      sellCount: '',
-      remainCount: '',
-      basketCount: '',
-      createdAt: '',
-      categoryName: '',
-      location: '',
-      language: '',
-    },
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        await postEvent(values).unwrap();
-        Swal.fire({
-          title: 'Added successfully!',
-          text: 'You clicked the button!',
-          icon: 'success',
-        });
-        resetForm();
-      } catch (error) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'There was an issue adding the event.',
-          icon: 'error',
-        });
-        console.error('Failed to add event:', error);
-      }
+      title: "",
+      mainImg: "",
+      secondImg: "",
+      price: "",
+      description: "",
+      sellCount: "",
+      remainCount: "",
+      basketCount: "",
+      createdAt: "",
+      categoryName: "",
+      location: "",
+      language: "",
     },
     validationSchema: eventSchema,
+    onSubmit: async (values, actions) => {
+      console.log("values : " + values);
+      const response = await postEvent(values);
+      console.log(response);
+
+      Swal.fire({
+        title: "Added successfully!",
+        text: "You clicked the button!",
+        icon: "success",
+      });
+
+      actions.resetForm();
+      refetch();
+    }
   });
 
   return (
@@ -49,13 +48,13 @@ const AddEvent = () => {
       component={Paper}
       elevation={3}
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '20px',
-        margin: '50px auto',
-        width: '800px',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+        margin: "50px auto",
+        width: "800px",
       }}
     >
       <Typography variant="h4" component="h1" gutterBottom>
@@ -64,10 +63,10 @@ const AddEvent = () => {
       <form
         onSubmit={formik.handleSubmit}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          width: '100%',
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          width: "100%",
         }}
       >
         <TextField
@@ -119,9 +118,9 @@ const AddEvent = () => {
           label="Description"
           variant="outlined"
           fullWidth
-          multiline
-          rows={3}
-          error={formik.touched.description && Boolean(formik.errors.description)}
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
@@ -150,7 +149,9 @@ const AddEvent = () => {
           label="Category Name"
           variant="outlined"
           fullWidth
-          error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
+          error={
+            formik.touched.categoryName && Boolean(formik.errors.categoryName)
+          }
           helperText={formik.touched.categoryName && formik.errors.categoryName}
         />
         <TextField

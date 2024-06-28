@@ -7,6 +7,7 @@ import { useDeleteUsersMutation, useGetUsersQuery } from '../../service/userApi'
 const Customers = () => {
   const { id } = useParams();
   const { data: users, refetch } = useGetUsersQuery();
+  console.log(users)
   const [deleteUser] = useDeleteUsersMutation(id);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});

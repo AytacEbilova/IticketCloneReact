@@ -25,254 +25,37 @@
         font-family: "Poppins", sans-serif;
         padding: 30px 0;
     }
-
     .cards {
-        display: flex;
-        gap: 30px;
+            display: flex;
+            gap: 70px;  
+            background-color: transparent;
 
         .card {
             position: relative;
             transition: transform 0.3s ease;
+            margin: 20px;
 
             &:hover {
-                transform: translateY(-10px);
+                transform: translateY(-20px);
 
                 .imgCont {
-                    transform: translateY(-70px);
+                    transform: translateY(-50px);
                 }
 
                 .text {
-                    transform: translateY(30px);
+                    transform: translateY(20px);
 
                     h3 {
                         color: black;
                     }
-                 
+
+                    p {
+                        color: black;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                    }
                     h4{
-                        color: #646464;
-                        opacity: 1;
-                        transition: opacity 0.3s ease;
-                    }
-                    p {
-                        color: #646464;
-                    }
-                }
-            }
-
-            .imgCont {
-                transition: transform 0.3s ease;
-
-                img {
-                    border-radius: 20px;
-                    width: 350px;
-                    height: auto;
-                }
-            }
-
-            .bn {
-                position: absolute;
-                bottom: 30px;
-                color: black;
-                border-radius: 9999px;
-                background-color: rgb(255, 221, 0);
-                line-height: 1.25rem;
-                padding: 14px;
-                z-index: 10;
-                font-weight: 700;
-                font-size: 20px;
-                left: 60%;
-
-            }
-
-            .price {
-                margin-left: 5px;
-               
-
-            }
-
-            .text {
-                transition: transform 0.3s ease, color 0.3s ease;
-                position: relative;
-                top: 360px;
-                text-align: left;
-                padding: 0 10px;
-                color: white;
-                z-index: 1;
-            }
-
-            h3 {
-                margin: 0;
-                font-weight: 700;
-                font-size: 20px;
-                line-height: 28px;
-                font-family: "Poppins", sans-serif;
-                letter-spacing: 0;
-                
-            }
-            p{
-                color: #ececec;
-            }
-            h4{
-                opacity: 0;
-                
-            }
-
-        }
-    }
-}
-
-.promotion {
-    padding-top: 100px;
-}
-
-.theatre {
-    padding: 100px 0;
-
-
-    .eventh3 {
-        font-weight: 600;
-        font-size: 30px;
-        color: #000000;
-        line-height: 45px;
-        font-family: "Poppins", sans-serif;
-        padding: 30px 0;
-    }
-
-    .cards {
-        display: flex;
-        gap: 30px;
-
-        .card {
-            position: relative;
-            transition: transform 0.3s ease;
-
-            &:hover {
-                transform: translateY(-10px);
-
-                .imgCont {
-                    transform: translateY(-50px);
-                }
-
-                .text {
-                    transform: translateY(20px);
-
-                    h3 {
                         color: black;
-                    }
-
-                    p {
-                        color: #646464;
-                        opacity: 1;
-                        transition: opacity 0.3s ease;
-                    }
-                }
-            }
-
-            .imgCont {
-                transition: transform 0.3s ease;
-
-                img {
-                    border-radius: 20px;
-                    width: 350px;
-                    height: auto;
-                }
-            }
-
-            .bn {
-                position: absolute;
-                bottom: 30px;
-                color: black;
-                border-radius: 9999px;
-                background-color: rgb(255, 221, 0);
-                line-height: 1.25rem;
-                padding: 14px;
-                z-index: 10;
-                font-weight: 700;
-                font-size: 20px;
-                left: 60%;
-
-            }
-
-            .price {
-                margin-left: 5px;
-
-            }
-
-            .text {
-                transition: transform 0.3s ease, color 0.3s ease;
-                position: relative;
-                top: 360px;
-                text-align: left;
-                padding: 0 10px;
-                color: white;
-                z-index: 1;
-            }
-
-            h3 {
-                margin: 0;
-                font-weight: 700;
-                font-size: 20px;
-                line-height: 28px;
-                font-family: "Poppins", sans-serif;
-                letter-spacing: 0;
-
-
-            }
-
-            p {
-                opacity: 0;
-
-            }
-
-        }
-    }
-}
-.promotion2{
-    padding: 80px ;
-}
-
-.kids {
-    background: linear-gradient(to bottom right, #fd0, #fd0 50%, transparent 0, transparent);
-   padding: 100px 0;
-    width: 100%;
-    height: auto;
-
-    .eventh3 {
-        font-weight: 600;
-        font-size: 30px;
-        color: #000000;
-        line-height: 45px;
-        font-family: "Poppins", sans-serif;
-        padding: 30px 0;
-    }
-
-    .cards {
-        display: flex;
-        gap: 60px;
-        background-color: transparent;
-
-        .card {
-            position: relative;
-            transition: transform 0.3s ease;
-
-            &:hover {
-                transform: translateY(-10px);
-
-                .imgCont {
-                    transform: translateY(-50px);
-                }
-
-                .text {
-                    transform: translateY(20px);
-
-                    h3 {
-                        color: black;
-                    }
-
-                    p {
-                        color: #646464;
-                        opacity: 1;
-                        transition: opacity 0.3s ease;
                     }
                 }
             }
@@ -330,6 +113,263 @@
                 text-align: left;
                 padding: 0 10px;
                 color: white;
+                z-index: 999;
+                margin-left: 10px;
+                margin-top: -10px;
+
+                p {
+                    opacity: 0;
+                }
+            }
+
+            h3 {
+                margin: 0;
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 28px;
+                font-family: "Poppins", sans-serif;
+                letter-spacing: 0;
+                margin-top: -10px;
+            }
+            h4{
+                margin-top: -10px;
+                padding-bottom:10px ;
+            }
+        }
+    }
+ 
+}
+
+
+
+.promotion {
+    padding-top: 100px;
+}
+
+.theatre {
+    padding: 100px 0;
+
+
+    .eventh3 {
+        font-weight: 600;
+        font-size: 30px;
+        color: #000000;
+        line-height: 45px;
+        font-family: "Poppins", sans-serif;
+        padding: 30px 0;
+    }
+
+    .cards {
+        display: flex;
+        gap: 30px;
+
+        .card {
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 20px;
+
+            &:hover {
+                transform: translateY(-20px);
+
+                .imgCont {
+                    transform: translateY(-50px);
+                }
+
+                .text {
+                    transform: translateY(20px);
+
+                    h3 {
+                        color: black;
+                    }
+
+                    p {
+                        color: black;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                    }
+            
+                }
+            }
+
+            .imgCont {
+                transition: transform 0.3s ease;
+
+                .img1 {
+                    background-color: #fafafa;
+                    border-radius: 20px;
+                    height: 100%;
+                    left: 0;
+                    object-fit: cover;
+                    object-position: center;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: 0;
+                }
+
+                .img2 {
+                    display: block;
+                    object-fit: contain;
+                    position: relative;
+                    transition-duration: .15s;
+                    transition-property: all;
+                    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+                    width: 100%;
+                    z-index: 10;
+                }
+            }
+
+            .bn {
+                position: absolute;
+                bottom: 30px;
+                color: black;
+                border-radius: 9999px;
+                background-color: rgb(255, 221, 0);
+                line-height: 1.25rem;
+                padding: 14px;
+                z-index: 10;
+                font-weight: 700;
+                font-size: 20px;
+                left: 60%;
+            }
+
+            .price {
+                margin-left: 5px;
+            }
+
+            .text {
+                transition: transform 0.3s ease, color 0.3s ease;
+                position: relative;
+                top: 400px;
+                text-align: left;
+                padding: 0 10px;
+                color: white;
+                z-index: 999;
+                margin-left: 10px;
+                margin-top: -10px;
+
+                p {
+                    opacity: 0;
+                }
+            }
+
+            h3 {
+                margin: 0;
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 28px;
+                font-family: "Poppins", sans-serif;
+                letter-spacing: 0;
+                margin-top: -10px;
+            }
+         
+        }
+    }
+}
+.promotion2{
+    padding: 80px ;
+}
+
+.kids {
+    background: linear-gradient(to bottom right, #fd0, #fd0 50%, transparent 0, transparent);
+   padding: 100px 0;
+    width: 100%;
+    height: auto;
+
+    .eventh3 {
+        font-weight: 600;
+        font-size: 30px;
+        color: #000000;
+        line-height: 45px;
+        font-family: "Poppins", sans-serif;
+        padding: 30px 0;
+       
+    }
+
+    .cards {
+        display: flex;
+        gap: 60px;
+        background-color: transparent;
+
+        .card {
+            position: relative;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: translateY(-10px);
+
+                .imgCont {
+                    transform: translateY(-50px);
+                }
+
+                .text {
+                    transform: translateY(20px);
+
+                    h3 {
+                        color: black;
+                    }
+
+                    p {
+                        color: #646464;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                    }
+                }
+            }
+
+            .imgCont {
+                transition: transform 0.3s ease;
+
+                .img1 {
+                    background-color: #fafafa;
+                    border-radius: 20px;
+                    height: 100%;
+                    left: 0;
+                    object-fit: cover;
+                    object-position: center;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: 0;
+                    }
+
+                .img2 {
+                    display: block;
+                    object-fit: contain;
+                    position: relative;
+                    transition-duration: .15s;
+                    transition-property: all;
+                    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+                    width: 100%;
+                    z-index: 10;
+                }
+            }
+
+            .bn {
+                position: absolute;
+                bottom: 30px;
+                color: black;
+                border-radius: 9999px;
+                background-color: rgb(255, 221, 0);
+                line-height: 1.25rem;
+                padding: 14px;
+                z-index: 10;
+                font-weight: 700;
+                font-size: 20px;
+                left: 60%;
+            }
+
+            .price {
+                margin-left: 5px;
+            }
+
+            .text {
+                transition: transform 0.3s ease, color 0.3s ease;
+                position: relative;
+                top: 400px;
+                text-align: left;
+                padding: 0 10px;
+                color: rgb(255, 255, 255);
                 z-index: 1;
 
                 p {
