@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.sect1 {
+    filter: drop-shadow(0 52px 94px rgba(0, 0, 0, .308949));
+    padding: 30px;
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow-x: hidden;
+
+    .imgCont {
+
+        .img1 {
+            border-radius: 1.25rem;
+            object-fit: cover;
+            width: 100%;
+            position: relative;
+        }
+    }
+
+    .info {
+        p {
+            background-color: #fd0;
+            color: black;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            position: absolute;
+            bottom: 30%;
+
+            .price {
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+        }
+
+        .btn {
+            position: absolute;
+            bottom: 30%;
+            left: 19%;
+            display: flex;
+            gap: 10px;
+
+            .buttonn {
+                background-color: transparent;
+                border: 3px solid white;
+                border-radius: 9999px;
+                display: flex;
+                height: 60px;
+                width: 60px;
+                justify-content: center;
+                padding: 1.25rem;
+                text-align: center;
+                vertical-align: middle;
+
+                .icon {
+                    color: white;
+                    font-size: 60px;
+
+                }
+            }
+        }
+    }
+}
+
+.sect2 {
+
+    a {
+        color: inherit;
+        text-decoration: inherit;
+
+        .infoBlock {
+            align-items: center;
+            display: flex;
+            background-color: #fff;
+            background-position: 100% 100%;
+            background-repeat: no-repeat;
+            background-size: 200px;
+            border-radius: 1.5rem;
+            box-shadow: 0 32px 34px rgba(0, 0, 0, .046);
+            padding: .5rem;
+            display: flex;
+
+            .allSpan {
+                .span1 {
+                    position: absolute;
+                    left: 20%;
+
+                    .age {
+                        position: absolute;
+                        top: 30%;
+                        right: 25%;
+                        color: white;
+                    }
+                }
+
+                .span2 {
+                    position: relative;
+                }
+            }
+
+            .text {
+                display: flex;
+                flex-direction: column;
+                margin-left: 50px;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                font-size: 14px;
+                // line-height: 27px;
+            }
+        }
+    }
+}
+
+.sect3 {
+    padding: 100px 0;
+    background-color: #F9F9F9;
+
+    .imgCont {
+        position: relative;
+
+        .img1 {
+            height: 100%;
+            left: 0;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .img2 {
+            height: 100%;
+            object-fit: contain;
+            object-position: bottom;
+            position: relative;
+            width: 100%;
+            z-index: 10;
+        }
+    }
+
+    .tabList {
+
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .tabHeader {
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+
+            .tab1 {
+                border: 1px solid rgb(240, 227, 227);
+                border-radius: 9999px;
+                cursor: pointer;
+
+                button {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    text-decoration: none;
+                    line-height: 1rem;
+                    padding: 10px 40px;
+                    text-align: center;
+                    width: 100%;
+                }
+
+                &.active {
+                    background-color: #fd0;
+                }
+            }
+        }
+
+        .tabBody {
+
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            .tabTitle {
+                height: 300px;
+                padding: 10px 20px;
+
+            }
+        }
+    }
+}
+
+.sect4 {
+    .eventh2 {
+        font-weight: 600;
+        font-size: 30px;
+        color: #000000;
+        line-height: 45px;
+        font-family: "Poppins", sans-serif;
+        padding: 30px 0;
+
+    }
+
+
+    .card {
+        position: relative;
+        transition: transform 0.3s ease;
+        margin: 30px 0;
+
+        &:hover {
+            transform: translateY(-10px);
+
+            .imgCont {
+                transform: translateY(-50px);
+            }
+
+            .text {
+                transform: translateY(40px);
+
+                h3 {
+                    color: black;
+                }
+
+                p {
+                    color: #646464;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                }
+
+                span {
+                    color: #646464;
+                    opacity: 1;
+                    transition: opacity 0.3s ease
+                }
+            }
+        }
+
+        .imgCont {
+            transition: transform 0.3s ease;
+
+            .img1 {
+                background-color: #fafafa;
+                border-radius: 20px;
+                height: 100%;
+                left: 0;
+                object-fit: cover;
+                object-position: center;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: 0;
+            }
+
+            .img2 {
+                display: block;
+                object-fit: contain;
+                position: relative;
+                transition-duration: .15s;
+                transition-property: all;
+                transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+                width: 100%;
+                z-index: 10;
+            }
+        }
+
+        .bn {
+            position: absolute;
+            bottom: 30px;
+            color: black;
+            border-radius: 9999px;
+            background-color: rgb(255, 221, 0);
+            line-height: 1.25rem;
+            padding: 14px;
+            z-index: 10;
+            font-weight: 700;
+            font-size: 20px;
+            left: 60%;
+        }
+
+        .price {
+            margin-left: 5px;
+        }
+
+        .text {
+            transition: transform 0.3s ease, color 0.3s ease;
+            position: relative;
+            top: 400px;
+            text-align: left;
+            padding: 0 10px;
+            color: rgb(255, 255, 255);
+            z-index: 999;
+
+            p {
+                opacity: 0;
+            }
+        }
+
+        h3 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 28px;
+            font-family: "Poppins", sans-serif;
+            letter-spacing: 0;
+        }
+
+        h4 {
+            opacity: 0;
+        }
+    }
+}
+
+.sect5 {
+   padding: 100px 0;
+.map{
+    display: flex;
+    width: 100%;
+    .frame{
+        flex: 1 1 0%;
+        height: 300px;
+        border-radius: 20px;
+        overflow: hidden;
+        width: 100%;
+        object-fit: cover;
+
+    }
+}
+       .all{
+            // position: relative;
+           .venueCard {
+               background-image: url("https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png");
+               background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+               background-position: 100% 100%;
+               background-repeat: no-repeat;
+               background-size: 200px;
+               background-position: center;
+               border-radius: 20px;
+               box-shadow: 0 32px 34px 0 rgba(0, 0, 0, .046);
+               padding: 1rem 1.5rem;
+               height: 300px;
+               
+               h3{
+   
+               }
+               p{
+   
+                   font-size: 20px;
+                   line-height: 28px;
+                   font-weight: 500;
+                   color: #6b7280;
+               }
+               a{
+                   text-decoration: none;
+                   color: #6b7280;
+               }
+               .btn{
+
+                   button{
+       
+                   }
+               }
+           }
+       }
+    }

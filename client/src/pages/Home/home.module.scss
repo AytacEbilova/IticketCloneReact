@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 .sect1 {
     filter: drop-shadow(0 52px 94px rgba(0, 0, 0, .308949));
     padding: 30px;
@@ -25,10 +26,10 @@
         font-family: "Poppins", sans-serif;
         padding: 30px 0;
     }
+
     .cards {
-            display: flex;
-            gap: 70px;  
-            background-color: transparent;
+
+        background-color: transparent;
 
         .card {
             position: relative;
@@ -54,7 +55,8 @@
                         opacity: 1;
                         transition: opacity 0.3s ease;
                     }
-                    h4{
+
+                    h4 {
                         color: black;
                     }
                 }
@@ -131,15 +133,15 @@
                 letter-spacing: 0;
                 margin-top: -10px;
             }
-            h4{
+
+            h4 {
                 margin-top: -10px;
-                padding-bottom:10px ;
+                padding-bottom: 10px;
             }
         }
     }
- 
-}
 
+}
 
 
 .promotion {
@@ -187,7 +189,7 @@
                         opacity: 1;
                         transition: opacity 0.3s ease;
                     }
-            
+
                 }
             }
 
@@ -262,17 +264,18 @@
                 letter-spacing: 0;
                 margin-top: -10px;
             }
-         
+
         }
     }
 }
-.promotion2{
-    padding: 80px ;
+
+.promotion2 {
+    padding: 80px;
 }
 
 .kids {
     background: linear-gradient(to bottom right, #fd0, #fd0 50%, transparent 0, transparent);
-   padding: 100px 0;
+    padding: 100px 0;
     width: 100%;
     height: auto;
 
@@ -283,7 +286,7 @@
         line-height: 45px;
         font-family: "Poppins", sans-serif;
         padding: 30px 0;
-       
+
     }
 
     .cards {
@@ -331,7 +334,7 @@
                     top: 0;
                     width: 100%;
                     z-index: 0;
-                    }
+                }
 
                 .img2 {
                     display: block;
@@ -393,6 +396,7 @@
     0% {
         transform: translate(-50%, -50%) rotate(-48deg);
     }
+
     100% {
         transform: translate(50%, 50%) rotate(-48deg);
     }
@@ -426,7 +430,8 @@
                 background-color: #000000;
                 border-radius: 1rem;
                 display: flex;
-                .line{
+
+                .line {
                     color: grey;
                     margin: 5px;
                     height: 40px;
@@ -458,5 +463,3 @@
         height: auto;
     }
 }
-
-

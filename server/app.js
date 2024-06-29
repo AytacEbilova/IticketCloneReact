@@ -68,7 +68,8 @@ const eventSchema=new Schema({
   createdAt:{type:String,require:true}  ,
   categoryName:{type:String,require:true},
   location:{type:String,require:true},
-  language:{type:String,require:true}
+  language:{type:String,require:true},
+  detailImg:{type:String,require:true}
 });
 
 const ticketSchema=new Schema({

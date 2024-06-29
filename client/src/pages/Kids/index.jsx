@@ -4,29 +4,17 @@ import axios from "axios";
 import styles from "../Concert/concert.module.scss";
 import { DatePicker, Space } from "antd";
 import { Slider } from "antd";
+import { useGetEventsQuery } from "../../services/redux/eventApi";
 
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 const Kids = () => {
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
+  const{data:events}=useGetEventsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/events");
-        setEvents(response.data.data);
-      } catch (err) {
-        console.log(err);
-        setError(err.message);
-      }
-    };
 
-    fetchEvents();
-  }, []);
 
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
@@ -115,7 +103,7 @@ const Kids = () => {
           }}
         >
           {events
-            ?.filter((event) => event.categoryName === "kids")
+            ?.data?.filter((event) => event.categoryName === "kids")
             .filter(
               (event) =>
                 !selectedLocation || event.location === selectedLocation
