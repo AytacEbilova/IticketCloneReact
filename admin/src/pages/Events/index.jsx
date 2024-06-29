@@ -68,6 +68,10 @@ const Events = () => {
       dataIndex: "categoryName",
     },
     {
+      title: "Date",
+      dataIndex: "createdAt",
+    },
+    {
       title: "sellCount",
       dataIndex: "sellCount",
     },

@@ -7,30 +7,15 @@ import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useGetEventsQuery } from "../../services/redux/eventApi";
 
 
 const Home = () => {
-  const [events, setEvents] = useState([]);
+  const {data:events}=useGetEventsQuery();
+  console.log(events)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/events');
-        setEvents(response.data.data);
-      } catch (err) {
-        console.log(err)
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-console.log(events);
-  
-  
 
   return (
     <>
@@ -100,13 +85,14 @@ console.log(events);
           slidesPerView={3}
           autoplay={{ delay: 3000 }}
         >
-         {events?.filter(event=>event.categoryName==="concert").map(
+         {events  && events?.data?.filter(event=>event.categoryName==="concert").map(
           event=>(
-            <SwiperSlide className={styles.cards}>
+            <SwiperSlide className={styles.cards} key={event.id}> 
+              <Link to={`/detail/${event._id}`} style={{ textDecoration: 'none' }}> 
             <div className={styles.card}>
               <div className={styles.text}>
                 <h3>{event.createdAt}</h3>
-                <p>{event.location}</p>
+                <p>{event.location} </p>
                 <h4>{event.title}</h4>
               </div>
               <div className={styles.imgCont}>
@@ -125,7 +111,9 @@ console.log(events);
                 from
                 <span className={styles.price}> {event.price}</span>
               </span>
+              {/* <Link to={`/detail/${event.id}`}> Detail</Link> */}
             </div>
+              </Link>
           </SwiperSlide>
           )
          )}
@@ -154,7 +142,7 @@ console.log(events);
       slidesPerView={3}
       autoplay={{ delay: 3000 }}
     >
-      {events?.filter(event => event.categoryName === "theatre").map(event => (
+      {events  && events?.data?.filter(event => event.categoryName === "theatre").map(event => (
         <SwiperSlide className={styles.cards} key={event._id}>
           <div className={styles.card}>
             <div className={styles.text}>
@@ -205,7 +193,7 @@ console.log(events);
             spaceBetween={30}
             autoplay={{ delay: 3000 }}
           >
-            {events?.filter(event=>event.categoryName==="kids").map(event=>(
+            {events  && events?.data?.filter(event=>event.categoryName==="kids").map(event=>(
             <SwiperSlide className={styles.cards}>
               <div className={styles.card}>
                 <div className={styles.text}>

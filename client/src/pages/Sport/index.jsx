@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Select, Col, Row, DatePicker, Space, Slider } from "antd";
+import { Select, Col, Row } from "antd";
 import axios from "axios";
 import styles from "../Concert/concert.module.scss";
-import moment from "moment";
+import { DatePicker, Space } from "antd";
+import { Slider } from "antd";
 
-const Concert = () => {
+const onChange = (date, dateString) => {
+  console.log(date, dateString);
+};
+const Sport = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -29,50 +31,22 @@ const Concert = () => {
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
   };
-
-  const handleDateChange = (value) => {
-    setSelectedDate(value);
-  };
-
   const handlePriceChange = (value) => {
     setPriceRange(value);
     filterEvents(value);
   };
 
-  const filterEvents = () => {
-    const filtered = events
-      .filter((event) => event.categoryName === "concert")
-      .filter(
-        (event) =>
-          !selectedLocation || event.location === selectedLocation
-      )
-      .filter((event) => {
-        if (selectedDate) {
-          const eventDate = new Date(event.createdAt);
-          const selectedDateObj = new Date(selectedDate);
-          return eventDate.getFullYear() === selectedDateObj.getFullYear() &&
-                 eventDate.getMonth() === selectedDateObj.getMonth() &&
-                 eventDate.getDate() === selectedDateObj.getDate();
-  
-        }
-        return true; 
-      })
-      .filter(
-        (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
-      );
+  const filterEvents = (priceRange) => {
+    const filtered = events.filter(
+      (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
+    );
     setFilteredEvents(filtered);
   };
-
-
-
-  useEffect(() => {
-    filterEvents();
-  }, [events, selectedLocation, selectedDate, priceRange]);
 
   return (
     <div className={styles.concerts}>
       <div className="container">
-        <h2 className={styles.eventh2}>Concert</h2>
+        <h2 className={styles.eventh2}>All Events</h2>
         <Row
           gutter={{
             xs: 8,
@@ -108,7 +82,7 @@ const Concert = () => {
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
             <Space direction="vertical" style={{ width: "100%" }}>
               <DatePicker
-                onChange={handleDateChange}
+                onChange={onChange}
                 style={{
                   width: "100%",
                 }}
@@ -131,6 +105,8 @@ const Concert = () => {
             </div>
           </Col>
         </Row>
+      
+
         <Row
           gutter={{
             xs: 8,
@@ -139,38 +115,44 @@ const Concert = () => {
             lg: 32,
           }}
         >
-          {filteredEvents.map((event) => (
-            <Col
-              key={event._id}
-              className="gutter-row"
-              span={8}
-              xs={24}
-              sm={24}
-              md={12}
-              lg={8}
-            >
-              <div className={styles.card}>
-                <div className={styles.text}>
-                  <h3>{event.createdAt}</h3>
-                  <p>
-                    {event.location} • <span>{event.title}</span>
-                  </p>
+          {events
+           ?.filter((event) => event.categoryName === "sport")
+            .filter(
+              (event) =>
+                !selectedLocation || event.location === selectedLocation
+            )
+            .map((event) => (
+              <Col
+                key={event._id}
+                className="gutter-row"
+                span={8}
+                xs={24}
+                sm={24}
+                md={12}
+                lg={8}
+              >
+                <div className={styles.card}>
+                  <div className={styles.text}>
+                    <h3>{event.createdAt}</h3>
+                    <p>
+                      {event.location} • <span>{event.title}</span>
+                    </p>
+                  </div>
+                  <div className={styles.imgCont}>
+                    <img src={event.mainImg} alt="" className={styles.img1} />
+                    <img src={event.secondImg} alt="" className={styles.img2} />
+                  </div>
+                  <span className={styles.bn}>
+                    from
+                    <span className={styles.price}> {event.price}</span>
+                  </span>
                 </div>
-                <div className={styles.imgCont}>
-                  <img src={event.mainImg} alt="" className={styles.img1} />
-                  <img src={event.secondImg} alt="" className={styles.img2} />
-                </div>
-                <span className={styles.bn}>
-                  from
-                  <span className={styles.price}> {event.price}</span>
-                </span>
-              </div>
-            </Col>
-          ))}
+              </Col>
+            ))}
         </Row>
       </div>
     </div>
   );
 };
 
-export default Concert;
+export default Sport;

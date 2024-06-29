@@ -266,13 +266,13 @@ const Header = () => {
               </li>
               <li>
                 <Link
-                  to="/dream-fest-2024"
+                  to="/sport"
                   className={`${styles.link} ${
-                    activeLink === "/dream-fest-2024" ? styles.active : ""
+                    activeLink === "/sport" ? styles.active : ""
                   }`}
-                  onClick={() => handleClick("/dream-fest-2024")}
+                  onClick={() => handleClick("/sport")}
                 >
-                  Dream-Fest
+                Sport
                 </Link>
               </li>
             </ul>

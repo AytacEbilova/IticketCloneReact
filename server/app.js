@@ -60,7 +60,7 @@ const eventSchema=new Schema({
   title:{type:String,require:true},
   mainImg:{type:String,require:true},
   secondImg:{type:String,require:true},
-  price:{type:String,require:true},
+  price:{type:Number,require:true},
   description:{type:String,require:true},
   sellCount:{type:Number,require:true},
   remainCount:{type:Number,require:true},
