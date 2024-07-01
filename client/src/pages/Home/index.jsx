@@ -30,19 +30,19 @@ const Home = () => {
           >
             <SwiperSlide>
               <img
-                src="https://cdn.iticket.az/event/slide/ezGhF67gqCnIvAl6Jgec8SRpzZngDEh6OiFprqtC.jpg"
+                src="https://cdn.iticket.az/event/slide/5w3xuzhJIM5cGFhEUvmlQZky7z8drtBkSxvZ6UCQ.jpg"
                 alt=""
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
-                src="https://cdn.iticket.az/event/slide/EmxE42GQnpRxoevGoiTWlcGeyhGuJNPvNQWffzes.jpg"
+                src="https://cdn.iticket.az/event/slide/Mp62RHNhbL97NHVYUKztwgm1vurR4HdFYTQKf0nM.jpg"
                 alt=""
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
-                src="https://cdn.iticket.az/event/slide/V0ZjM1D2JkLsjdzNpgrVWTlCOcMcp5zumcn8WgA4.jpg"
+                src="https://cdn.iticket.az/event/slide/fUzdF4W2465OsekoaNC8Qq4wEgTEwWjWDPl9atGq.jpg"
                 alt=""
               />
             </SwiperSlide>
@@ -57,7 +57,7 @@ const Home = () => {
             </SwiperSlide>
             <SwiperSlide>
               <img
-                src="https://cdn.iticket.az/event/slide/y1L7DEghKaiunrRZRZ54L0UE7mzVPgBILae7PhVG.jpg"
+                src="https://cdn.iticket.az/event/slide/wfvzcg6LTqX00iCxSLZCARwWmhTHPm7HLvNc5Lqx.jpg"
                 alt=""
               />
             </SwiperSlide>

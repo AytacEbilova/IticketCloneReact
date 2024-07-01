@@ -25,7 +25,7 @@ const Kids = () => {
   };
 
   const filterEvents = (priceRange) => {
-    const filtered = events.filter(
+    const filtered = events?.data.filter(
       (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
     );
     setFilteredEvents(filtered);

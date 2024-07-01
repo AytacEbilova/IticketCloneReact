@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+MX:wght@100..400&display=swap');
 .sect1 {
     filter: drop-shadow(0 52px 94px rgba(0, 0, 0, .308949));
     padding: 30px;
@@ -67,7 +68,7 @@
 }
 
 .sect2 {
-
+    filter: drop-shadow(0 52px 94px rgba(0, 0, 0, .308949));
     a {
         color: inherit;
         text-decoration: inherit;
@@ -121,7 +122,7 @@
 
     .imgCont {
         position: relative;
-
+       
         .img1 {
             height: 100%;
             left: 0;
@@ -129,6 +130,7 @@
             position: absolute;
             top: 0;
             width: 100%;
+            border-radius: 20px
         }
 
         .img2 {
@@ -153,7 +155,7 @@
             display: flex;
 
             .tab1 {
-                border: 1px solid rgb(240, 227, 227);
+                border: 1px solid rgb(236, 231, 231);
                 border-radius: 9999px;
                 cursor: pointer;
 
@@ -163,7 +165,7 @@
                     cursor: pointer;
                     text-decoration: none;
                     line-height: 1rem;
-                    padding: 10px 40px;
+                    padding: 20px 40px;
                     text-align: center;
                     width: 100%;
                 }
@@ -183,12 +185,16 @@
             gap: 1.25rem;
             margin-bottom: 2rem;
             overflow: hidden;
-
             border-radius: 20px;
 
             .tabTitle {
                 height: 300px;
-                padding: 10px 20px;
+                padding: 20px 20px;
+                font-family: "Playfair Display", serif;
+                font-style: italic;
+                line-height: 30px;
+                font-size: 16px;
+                font-weight: 400;
 
             }
         }
@@ -196,6 +202,7 @@
 }
 
 .sect4 {
+    background-color: #F9F9F9;
     .eventh2 {
         font-weight: 600;
         font-size: 30px;
@@ -316,54 +323,91 @@
 }
 
 .sect5 {
-   padding: 100px 0;
-.map{
-    display: flex;
-    width: 100%;
-    .frame{
-        flex: 1 1 0%;
-        height: 300px;
-        border-radius: 20px;
-        overflow: hidden;
-        width: 100%;
-        object-fit: cover;
+    background-color: #F9F9F9;
+    padding: 60px 0;
+    .eventh2 {
+        font-weight: 600;
+        font-size: 30px;
+        color: #000000;
+        line-height: 45px;
+        font-family: "Poppins", sans-serif;
+        padding: 30px 0;
 
+    }
+
+    .map {
+        display: flex;
+        width: 100%;
+
+        .frame {
+            flex: 1 1 0%;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            object-fit: cover;
+
+        }
+    }
+
+    .all {
+
+        // position: relative;
+        .venueCard {
+            // background-image: url("https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png");
+            background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+            background-position: 100% 100%;
+            background-repeat: no-repeat;
+            background-size: 200px;
+            background-position: center;
+            border-radius: 20px;
+            box-shadow: 0 32px 34px 0 rgba(0, 0, 0, .046);
+            padding: 1rem 1.5rem;
+            height: 300px;
+            position: relative;
+         background-color: white;
+            img{
+                position: absolute;
+                bottom: 0;
+                right: 0 ;
+                width: 250px;
+                height: 200px;
+            }
+            h3 {
+                font-size: 22px;
+                line-height: 32px;
+                font-weight: 700;
+                color: black;
+            }
+
+            p {
+
+                font-size: 20px;
+                line-height: 28px;
+                font-weight: 500;
+                color: #6b7280;
+            }
+
+            a {
+                text-decoration: none;
+                color: #6b7280;
+                font-size: 18px;
+                line-height: 24 px;
+            }
+
+            .btn {
+
+                button {
+                    background-color: #fd0;
+                    width: 150px;
+                    height: 40px;
+                    border-radius: 20px;
+                    padding: 10px 0;
+                    margin: 10px 0;
+                    cursor: pointer;
+                    border: none;
+                }
+            }
+        }
     }
 }
-       .all{
-            // position: relative;
-           .venueCard {
-               background-image: url("https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png");
-               background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-               background-position: 100% 100%;
-               background-repeat: no-repeat;
-               background-size: 200px;
-               background-position: center;
-               border-radius: 20px;
-               box-shadow: 0 32px 34px 0 rgba(0, 0, 0, .046);
-               padding: 1rem 1.5rem;
-               height: 300px;
-               
-               h3{
-   
-               }
-               p{
-   
-                   font-size: 20px;
-                   line-height: 28px;
-                   font-weight: 500;
-                   color: #6b7280;
-               }
-               a{
-                   text-decoration: none;
-                   color: #6b7280;
-               }
-               .btn{
-
-                   button{
-       
-                   }
-               }
-           }
-       }
-    }

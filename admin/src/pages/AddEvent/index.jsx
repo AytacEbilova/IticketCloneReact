@@ -9,8 +9,9 @@ import {
 } from "../../service/eventApi";
 
 const AddEvent = () => {
-    const [postEvent] = usePostEventsMutation();
-   const{data,refetch}=useGetEventsQuery();
+  const [postEvent] = usePostEventsMutation();
+  const { data, refetch } = useGetEventsQuery();
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -28,19 +29,23 @@ const AddEvent = () => {
     },
     validationSchema: eventSchema,
     onSubmit: async (values, actions) => {
-      console.log("values : " + values);
-      const response = await postEvent(values);
-      console.log(response);
+      console.log("Submitting values: ", values);  // Log the values before submission
+      try {
+        const response = await postEvent(values);
+        console.log("Response: ", response);  // Log the API response
 
-      Swal.fire({
-        title: "Added successfully!",
-        text: "You clicked the button!",
-        icon: "success",
-      });
+        Swal.fire({
+          title: "Added successfully!",
+          text: "You clicked the button!",
+          icon: "success",
+        });
 
-      actions.resetForm();
-      refetch();
-    }
+        actions.resetForm();
+        refetch();
+      } catch (error) {
+        console.error("Error submitting event: ", error);
+      }
+    },
   });
 
   return (
@@ -109,6 +114,19 @@ const AddEvent = () => {
           helperText={formik.touched.secondImg && formik.errors.secondImg}
         />
         <TextField
+          value={formik.values.price}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="price"
+          id="price"
+          type="number"
+          label="Price"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.price && Boolean(formik.errors.price)}
+          helperText={formik.touched.price && formik.errors.price}
+        />
+        <TextField
           value={formik.values.description}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -118,10 +136,47 @@ const AddEvent = () => {
           label="Description"
           variant="outlined"
           fullWidth
-          error={
-            formik.touched.description && Boolean(formik.errors.description)
-          }
+          error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
+        />
+        <TextField
+          value={formik.values.sellCount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="sellCount"
+          id="sellCount"
+          type="number"
+          label="Sell Count"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.sellCount && Boolean(formik.errors.sellCount)}
+          helperText={formik.touched.sellCount && formik.errors.sellCount}
+        />
+        <TextField
+          value={formik.values.remainCount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="remainCount"
+          id="remainCount"
+          type="number"
+          label="Remain Count"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.remainCount && Boolean(formik.errors.remainCount)}
+          helperText={formik.touched.remainCount && formik.errors.remainCount}
+        />
+        <TextField
+          value={formik.values.basketCount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="basketCount"
+          id="basketCount"
+          type="number"
+          label="Basket Count"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.basketCount && Boolean(formik.errors.basketCount)}
+          helperText={formik.touched.basketCount && formik.errors.basketCount}
         />
         <TextField
           value={formik.values.createdAt}
@@ -149,9 +204,7 @@ const AddEvent = () => {
           label="Category Name"
           variant="outlined"
           fullWidth
-          error={
-            formik.touched.categoryName && Boolean(formik.errors.categoryName)
-          }
+          error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
           helperText={formik.touched.categoryName && formik.errors.categoryName}
         />
         <TextField

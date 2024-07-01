@@ -1,12 +1,15 @@
 import Concert from "../pages/Concert";
 import Detail from "../pages/Detail";
 import Events from "../pages/Events";
+import GiftCard from "../pages/GiftCard";
 import Home from "../pages/Home";
 import Kids from "../pages/Kids";
 import MainRoot from "../pages/MainRoot";
 import Profile from "../pages/Profile";
 import Sport from "../pages/Sport";
 import Theatre from "../pages/Theatre";
+import UptadePas from "../pages/UpdatePas";
+import Wallet from "../pages/Wallet";
 
 export const ROUTES = [
   {
@@ -42,8 +45,20 @@ export const ROUTES = [
         element: <Sport />,
       },
       {
-        path:"profile",
+        path:"profile/:id",
         element:<Profile/>
+      },
+      {
+        path:"wallet",
+        element:<Wallet/>
+      },
+      {
+        path:"giftcard",
+        element:<GiftCard/>
+      },
+      {
+        path:"update-pass",
+        element:<UptadePas/>
       }
     ],
   },

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "../Header/header.module.scss";
 import { CiHeart, CiSearch } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 import { IoPersonOutline } from "react-icons/io5";
-import { Button, Modal, Input, Form, message } from "antd";
+import { Button, Modal, Input, Form, message,Dropdown,Menu } from "antd";
 import { useFormik } from "formik";
 import userValidation from "../../validation/register.validation.js";
 import controller from "../../services/api/request.js";
@@ -12,6 +12,7 @@ import { endpoints } from "../../services/api/constant.js";
 import Swal from "sweetalert2"
 
 import loginValidation from "../../validation/login.validation.js";
+import { useGetOneUserQuery } from "../../services/redux/userApi.js";
 const Header = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
@@ -19,7 +20,11 @@ const Header = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [registeredEmail, setRegisteredEmail] = useState(null);
   const navigate = useNavigate();
-
+  const userDataJson = localStorage.getItem("user")
+  const {id}=useParams()
+  const user= JSON.parse(userDataJson)
+  const {data:userId}=useGetOneUserQuery(id)
+  // const userId= user?._id
   const handleClick = (path) => {
     setActiveLink(path);
   };
@@ -28,15 +33,7 @@ const Header = () => {
     return user ? JSON.parse(user) : null;
   };
 
-  const showModal = () => {
-    const user = getUser();
-    if (user) {
-      navigate('/profile');
-    } else {
-      setIsModalOpen(true);
-    }
-  };
-
+  
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -95,6 +92,14 @@ const Header = () => {
         showConfirmButton: false,
         timer: 1000,
       });
+    }
+  };
+  const showModal = () => {
+    const user = getUser();
+    if (user) {
+      navigate(`/profile/${userId}`);
+    } else {
+      setIsModalOpen(true);
     }
   };
 
@@ -169,7 +174,22 @@ const Header = () => {
       }
     },
   });
-
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Link to={`/profile/${userId?._id}`}>Profile</Link> 
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Link to="/wallet">Wallet</Link>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Link to="/giftcard">GiftCard</Link>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <Link to="/update-pass">Update Password</Link>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <header>
@@ -288,9 +308,11 @@ const Header = () => {
               <SlBasket className={styles.icon} />
             </a>
             <span className={styles.person}>
+            <Dropdown overlay={menu} trigger={['hover']}>
               <a onClick={showModal}>
                 <IoPersonOutline />
               </a>
+            </Dropdown>
               <Modal
                 title={activeTab === "login" ? "Login" : "Register"}
                 visible={isModalOpen}

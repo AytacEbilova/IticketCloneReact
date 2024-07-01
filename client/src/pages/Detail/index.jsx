@@ -12,7 +12,7 @@ import { Col, Row } from "antd";
 import Grid from "@mui/material/Grid";
 
 const Detail = () => {
-  const [activeTab, setActiveTab] = useState("about"); // State to track the active tab
+  const [activeTab, setActiveTab] = useState("about"); 
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -197,12 +197,12 @@ const Detail = () => {
         </div>
       </section>
       <div className="container">
-        <hr style={{ backgroundColor: "#E4E7EB" }} />
+        <hr style={{ backgroundColor: "#e9ecf2" }} />
       </div>
 
       <section className={styles.sect5}>
         <div className="container">
-          <h2>Venue location</h2>
+          <h2 className={styles.eventh2}>Venue location</h2>
           <Grid container spacing={2}>
             {event && (
               <>
@@ -217,7 +217,10 @@ const Detail = () => {
                 </Grid>
                 <Grid item xs={12} md={6} lg={5} sm={12} className={styles.all}>
                   <div className={styles.venueCard}>
+                 
+                    <img src=" https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png" alt="" />
                     <h3>{event.data.location}</h3>
+
                     <p>
                       Bulbul avenue 35,
                       <br /> Baku, Azerbaijan
@@ -242,7 +245,7 @@ const Detail = () => {
       </section>
 
       <div className="container">
-        <hr style={{ backgroundColor: "#E4E7EB" }} />
+        <hr style={{ backgroundColor: "#e9ecf2" ,height:"2px"}} />
       </div>
       <section className={styles.sect4}>
         <div className="container">

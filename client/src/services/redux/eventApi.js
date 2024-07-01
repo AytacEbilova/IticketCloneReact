@@ -26,7 +26,18 @@ export const eventApi = createApi({
         },
       }),
     }),
-  }),
+
+    updateEvent:builder.mutation({
+      query:(id,payload)=>({
+        url: `events/${id}`,
+        method: 'PATCH',
+        body: payload,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    })
+  }),  
 });
 
-export const { useGetEventsQuery, useDeleteEventsMutation, useGetOneEventQuery, usePostEventsMutation } = eventApi;
+export const { useGetEventsQuery, useDeleteEventsMutation, useGetOneEventQuery, usePostEventsMutation,useUpdateEventMutation } = eventApi;

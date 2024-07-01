@@ -4,29 +4,17 @@ import axios from "axios";
 import styles from "../Concert/concert.module.scss";
 import { DatePicker, Space } from "antd";
 import { Slider } from "antd";
+import { useGetEventsQuery } from "../../services/redux/eventApi";
 
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 const Theatre = () => {
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
+const{data:events}=useGetEventsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/events");
-        setEvents(response.data.data);
-      } catch (err) {
-        console.log(err);
-        setError(err.message);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
@@ -35,14 +23,39 @@ const Theatre = () => {
     setPriceRange(value);
     filterEvents(value);
   };
-
-  const filterEvents = (priceRange) => {
-    const filtered = events.filter(
-      (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
-    );
-    setFilteredEvents(filtered);
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
   };
 
+  const filterEvents = () => {
+    const filtered = events?.data
+      .filter((event) => event.categoryName === "theatre")
+      .filter(
+        (event) =>
+          !selectedLocation || event.location === selectedLocation
+      )
+      .filter((event) => {
+        if (selectedDate) {
+          const eventDate = new Date(event.createdAt);
+          const selectedDateObj = new Date(selectedDate);
+          return eventDate.getFullYear() === selectedDateObj.getFullYear() &&
+                 eventDate.getMonth() === selectedDateObj.getMonth() &&
+                 eventDate.getDate() === selectedDateObj.getDate();
+  
+        }
+        return true; 
+      })
+      .filter(
+        (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
+      );
+    setFilteredEvents(filtered);
+  };
+  useEffect(() => {
+    if (events) {
+      filterEvents();
+    }
+  }, [events, selectedLocation, selectedDate, priceRange]);
+  console.log(filteredEvents)
   return (
     <div className={styles.concerts}>
       <div className="container">
@@ -82,7 +95,7 @@ const Theatre = () => {
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
             <Space direction="vertical" style={{ width: "100%" }}>
               <DatePicker
-                onChange={onChange}
+                onChange={handleDateChange}
                 style={{
                   width: "100%",
                 }}
@@ -115,13 +128,7 @@ const Theatre = () => {
             lg: 32,
           }}
         >
-          {events
-            ?.filter((event) => event.categoryName === "theatre")
-            .filter(
-              (event) =>
-                !selectedLocation || event.location === selectedLocation
-            )
-            .map((event) => (
+         {filteredEvents?.map((event)=>(
               <Col
                 key={event._id}
                 className="gutter-row"
@@ -148,7 +155,9 @@ const Theatre = () => {
                   </span>
                 </div>
               </Col>
-            ))}
+
+         ))}
+        
         </Row>
       </div>
     </div>

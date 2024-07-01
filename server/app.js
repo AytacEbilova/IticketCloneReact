@@ -111,7 +111,7 @@ app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await Users.findById(id);
-    if (product) {
+    if (user) {
       res.status(200).send({
         message: "success",
         data: user,
@@ -144,39 +144,52 @@ app.delete("/users/:id", async (req, res) => {
     });
   }
 });
-app.post("/users", async (req, res) => {
-  console.log("Received request with body:", req.body);
-
-  const { error } = UserValidations.validate(req.body);
-  if (error) {
-    const errorMessage = error.details.map(detail => detail.message).join(', ');
-    console.log("Validation error:", errorMessage);
-    return res.status(400).send({
-      error: true,
-      message: errorMessage,
-    });
+app.post("/users",(req,res,next)=>{
+  const {error}=UserValidations.validate(req.body);
+  if(!error){
+      next();
   }
+  else{
+      const{details}=error;
+      res.send({
+          isValidate:false,
+          message:details[0].message
+      })
 
-  try {
-    const duplicateEmail = await Users.findOne({ email: req.body.email });
-    if (duplicateEmail) {
-      console.log("Email already in use:", req.body.email);
-      return res.status(400).send({ error: true, message: "Email already in use" });
-    }
 
-    //send email
-    sendVerifyEmail(newUser.email,);
-    const newUser = new Users(req.body);
-    await newUser.save();
-    console.log("User created successfully:", newUser);
-    res.status(201).send({ error: false, message: "User created", newUser });
-  } catch (error) {
-    console.error("Error saving user:", error);
-    res.status(500).send({ error: true, message: error.message });
   }
+}, async (req, res) => {
+const newUser = new Users(req.body);
+try {
+  await newUser.save();
+  res.status(200).send({
+    message: "posted",
+    newUser: newUser,
+  });
+} catch (error) {
+  res.status(500).send({
+    message: error.message,
+    error: true,
+  });
+}
 });
 
-
+app.patch("/users/:id",async(req,res)=>{
+  const { id } = req.params;
+  try {
+    await Users.findByIdAndUpdate(id, req.body);
+    const updated = await Users.findById(id);
+    res.send({
+      message: "updated",
+      response: updated,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error,
+      error: true,
+    });
+  }
+})
 //login crud
 app.get("/login", async (req, res) => {
   try {
@@ -283,7 +296,7 @@ app.post("/events", async (req, res) => {
     res.status(500).send({ error: true, message: error.message });
   }
 });
-app.put("/events",async(req,res)=>{
+app.patch("/events/:id",async(req,res)=>{
   const { id } = req.params;
   try {
     await Events.findByIdAndUpdate(id, req.body);

@@ -3,28 +3,15 @@ import { Select, Col, Row, DatePicker, Space, Slider } from "antd";
 import axios from "axios";
 import styles from "../Concert/concert.module.scss";
 import moment from "moment";
+import { useGetEventsQuery } from "../../services/redux/eventApi";
 
 const Concert = () => {
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
+
+  const{data:events}=useGetEventsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/events");
-        setEvents(response.data.data);
-      } catch (err) {
-        console.log(err);
-        setError(err.message);
-      }
-    };
-
-    fetchEvents();
-  }, []);
 
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
@@ -40,7 +27,7 @@ const Concert = () => {
   };
 
   const filterEvents = () => {
-    const filtered = events
+    const filtered = events?.data
       .filter((event) => event.categoryName === "concert")
       .filter(
         (event) =>
@@ -64,7 +51,7 @@ const Concert = () => {
   };
 
 
-
+console.log(filteredEvents)
   useEffect(() => {
     filterEvents();
   }, [events, selectedLocation, selectedDate, priceRange]);
@@ -139,7 +126,7 @@ const Concert = () => {
             lg: 32,
           }}
         >
-          {filteredEvents.map((event) => (
+          {filteredEvents?.map((event) => (
             <Col
               key={event._id}
               className="gutter-row"

@@ -1,7 +1,10 @@
-.logo{
-    width: 130px;
-}
-h2{
+footer{
+    padding: 50px 0;
+    background-color: #F9F9F9;
+    .logo{
+        width: 130px;
+    }
+    h2{
     font-weight: 700;
     font-size: 24px;
     color: #000000;
@@ -22,7 +25,7 @@ p{
     height: auto;
 }
 .text{
-   padding: 30px 0;
+    padding: 30px 0;
     a{
        
         font-weight: 700;
@@ -51,10 +54,11 @@ nav{
     background-color: rgb(255,221,0);
     flex-direction: row;
     gap: 30px;
-    margin-top: 40px;
+    margin-top: 60px;
     a{
         color: black;
         font-size: 22px;
         margin-top: 15px
     }
+}
 }
