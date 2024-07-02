@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   useGetEventsQuery,
   useGetOneEventQuery,
@@ -9,19 +9,33 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { PiShareFat } from "react-icons/pi";
 import { Button } from "antd";
 import { Col, Row } from "antd";
+import { FaHeart } from "react-icons/fa";
 import Grid from "@mui/material/Grid";
+import { FavContext } from "../../context/favoriteContext";
 
 const Detail = () => {
-  const [activeTab, setActiveTab] = useState("about"); 
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+  const [activeTab, setActiveTab] = useState("about");
+  const { fav, setFav } = useContext(FavContext);
+  
   const { id } = useParams();
   const { data: event } = useGetOneEventQuery(id);
   const { data: events } = useGetEventsQuery();
   console.log(event);
   const navigate = useNavigate();
+  const handleWishlist = (event) => {
+    const addToFav = fav.find((x) => x._id == event._id);
+    if (!addToFav) {
+      setFav([...fav, event]);
+      localStorage.setItem("fav", JSON.stringify([...fav, event]));
+    } else {
+      const uptadeFav = fav.filter((x) => x._id != event._id);
+      setFav(uptadeFav);
+      localStorage.setItem("fav", JSON.stringify("fav", uptadeFav));
+    }
+  };
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
   return (
     <div>
       {event && (
@@ -38,8 +52,22 @@ const Detail = () => {
                 </p>
 
                 <div className={styles.btn}>
-                  <Button className={styles.buttonn}>
-                    <IoMdHeartEmpty className={styles.icon} />
+
+                  <Button className={styles.buttonn}
+                    onClick={() => handleWishlist(event)}
+                    style={{
+                      backgroundColor: "white",
+                      border: "1px solid black",
+                    }}
+                  >
+                    <FaHeart
+                    className={styles.icon}
+                      style={{
+                        color: fav.find((x) => x._id === event._id)
+                          ? "red"
+                          : "inherit",
+                      }}
+                    />
                   </Button>
                   <Button className={styles.buttonn}>
                     <PiShareFat className={styles.icon} />
@@ -217,8 +245,10 @@ const Detail = () => {
                 </Grid>
                 <Grid item xs={12} md={6} lg={5} sm={12} className={styles.all}>
                   <div className={styles.venueCard}>
-                 
-                    <img src=" https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png" alt="" />
+                    <img
+                      src=" https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png"
+                      alt=""
+                    />
                     <h3>{event.data.location}</h3>
 
                     <p>
@@ -231,9 +261,9 @@ const Detail = () => {
                     <h3>Mobile</h3>
                     <a href="tel:+994 50 493 55 11"> +994 50 493 55 11</a>
                     <div className={styles.btn}>
-                    <a href="http://maps.google.com/maps?q=40.3778158,49.8412733">
-                      <button>Get Direction</button>
-                    </a>
+                      <a href="http://maps.google.com/maps?q=40.3778158,49.8412733">
+                        <button>Get Direction</button>
+                      </a>
                     </div>
                     <p></p>
                   </div>
@@ -245,7 +275,7 @@ const Detail = () => {
       </section>
 
       <div className="container">
-        <hr style={{ backgroundColor: "#e9ecf2" ,height:"2px"}} />
+        <hr style={{ backgroundColor: "#e9ecf2", height: "2px" }} />
       </div>
       <section className={styles.sect4}>
         <div className="container">

@@ -1,40 +1,54 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useContext, useState } from "react";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import styles from "../Header/header.module.scss";
 import { CiHeart, CiSearch } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 import { IoPersonOutline } from "react-icons/io5";
-import { Button, Modal, Input, Form, message,Dropdown,Menu } from "antd";
+import { Button, Modal, Input, Form, message, Dropdown, Menu } from "antd";
 import { useFormik } from "formik";
 import userValidation from "../../validation/register.validation.js";
 import controller from "../../services/api/request.js";
 import { endpoints } from "../../services/api/constant.js";
-import Swal from "sweetalert2"
-
+import Swal from "sweetalert2";
 import loginValidation from "../../validation/login.validation.js";
 import { useGetOneUserQuery } from "../../services/redux/userApi.js";
+import { FavContext } from "../../context/favoriteContext.jsx";
+const sendVerifyEmail = require("../helpers/sendMail");
+
+// import { useContext } from "react"
+
 const Header = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const [registeredEmail, setRegisteredEmail] = useState(null);
   const navigate = useNavigate();
-  const userDataJson = localStorage.getItem("user")
-  const {id}=useParams()
-  const user= JSON.parse(userDataJson)
-  const {data:userId}=useGetOneUserQuery(id)
+  const userDataJson = localStorage.getItem("user");
+  const { id } = useParams();
+  const user = JSON.parse(userDataJson);
+  const { data: userId } = useGetOneUserQuery(id);
+  const { fav } = useContext(FavContext);
   // const userId= user?._id
+
   const handleClick = (path) => {
     setActiveLink(path);
   };
   const getUser = () => {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   };
-
-  
   const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleVerifyCancel = () => {
     setIsModalOpen(false);
   };
 
@@ -57,14 +71,16 @@ const Header = () => {
   };
 
   const loginUser = async (email, password) => {
-    console.log('login started');
+    console.log("login started");
     try {
       const response = await controller.getAll(endpoints.users);
       let users = response.data;
-      const user = users.find(u => u.email === email && u.password === password);
-      
+      const user = users.find(
+        (u) => u.email === email && u.password === password
+      );
+
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user)); 
+        localStorage.setItem("user", JSON.stringify(user));
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -73,8 +89,7 @@ const Header = () => {
           timer: 1000,
         });
         setIsModalOpen(false);
-      } 
-      else {
+      } else {
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -103,11 +118,15 @@ const Header = () => {
     }
   };
 
+  const handleVerifyCode = ()=>{
+
+  }
+
   //formik
   const loginFormik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: loginValidation,
     onSubmit: async (values, actions) => {
@@ -137,12 +156,19 @@ const Header = () => {
 
       try {
         console.log("Sending request to:", endpoints.users);
+        const randomCode = Math.floor(100000 + Math.random() * 900000);
+        if (email) {
+          localStorage.setItem(email, randomCode);
+        }
+        sendVerifyEmail(newUser.email, token);
+
+        //open modal
+
         const response = await controller.post(endpoints.users, newUser);
         console.log("Response received:", response);
 
-
         if (response.response) {
-          Swal.fire({ 
+          Swal.fire({
             position: "top-end",
             icon: "error",
             title: response.response.data.message,
@@ -177,7 +203,7 @@ const Header = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1">
-        <Link to={`/profile/${userId?._id}`}>Profile</Link> 
+        <Link to={`/profile/${userId?._id}`}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/wallet">Wallet</Link>
@@ -292,15 +318,16 @@ const Header = () => {
                   }`}
                   onClick={() => handleClick("/sport")}
                 >
-                Sport
+                  Sport
                 </Link>
               </li>
             </ul>
           </div>
           <div className={styles.lastSect}>
-            <a href="">
+            <NavLink to={"/favorites"}>
               <CiHeart className={styles.icon} />
-            </a>
+              <sub>{fav.length}</sub>
+            </NavLink>
             <a href="">
               <CiSearch className={styles.icon} />
             </a>
@@ -308,11 +335,11 @@ const Header = () => {
               <SlBasket className={styles.icon} />
             </a>
             <span className={styles.person}>
-            <Dropdown overlay={menu} trigger={['hover']}>
-              <a onClick={showModal}>
-                <IoPersonOutline />
-              </a>
-            </Dropdown>
+              <Dropdown overlay={menu} trigger={["hover"]}>
+                <a onClick={showModal}>
+                  <IoPersonOutline />
+                </a>
+              </Dropdown>
               <Modal
                 title={activeTab === "login" ? "Login" : "Register"}
                 visible={isModalOpen}
@@ -323,124 +350,171 @@ const Header = () => {
               >
                 {activeTab === "login" && (
                   <Form
-                  name="login"
-                  initialValues={{ remember: true }}
-                  onFinish={loginFormik.handleSubmit}
-                  onFinishFailed={() => {
-                    message.error('Validation failed');
-                  }}
-                >
-             <Form.Item>
-                      <Input
-                        placeholder="Email"
-                        {...loginFormik.getFieldProps('email')}
-                      />
-                      {loginFormik.touched.email && loginFormik.errors.email && (
-                        <span style={{ color: 'red' }}>{loginFormik.errors.email}</span>
-                      )}
-                    </Form.Item>
-                  <Form.Item>
-                      <Input.Password
-                        placeholder="Password"
-                        {...loginFormik.getFieldProps('password')}
-                      />
-                      {loginFormik.touched.password && loginFormik.errors.password && (
-                        <span style={{ color: 'red' }}>{loginFormik.errors.password}</span>
-                      )}
-                    </Form.Item>
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "#fd0",
-                        color: "black",
-                      }}
-                    >
-                      Log in
-                    </Button>
-                    New to iticket.az?{" "}
-                    <a onClick={switchToRegister}>Sign up now</a>
-                  </Form.Item>
-                </Form>
-                )}
-
-                {activeTab === "register" && (
-                    <Form
-                    name="register"
-                    onFinish={formik.handleSubmit}
+                    name="login"
+                    initialValues={{ remember: true }}
+                    onFinish={loginFormik.handleSubmit}
+                    onFinishFailed={() => {
+                      message.error("Validation failed");
+                    }}
                   >
                     <Form.Item>
                       <Input
-                        placeholder="First Name"
-                        {...formik.getFieldProps('firstName')}
-                      />
-                      {formik.touched.firstName && formik.errors.firstName && (
-                        <span style={{ color: 'red' }}>{formik.errors.firstName}</span>
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
-                        placeholder="Last Name"
-                        {...formik.getFieldProps('lastName')}
-                      />
-                      {formik.touched.lastName && formik.errors.lastName && (
-                        <span style={{ color: 'red' }}>{formik.errors.lastName}</span>
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
-                        placeholder="Mobile"
-                        {...formik.getFieldProps('mobile')}
-                      />
-                      {formik.touched.mobile && formik.errors.mobile && (
-                        <span style={{ color: 'red' }}>{formik.errors.mobile}</span>
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      <Input
                         placeholder="Email"
-                        {...formik.getFieldProps('email')}
+                        {...loginFormik.getFieldProps("email")}
                       />
-                      {formik.touched.email && formik.errors.email && (
-                        <span style={{ color: 'red' }}>{formik.errors.email}</span>
-                      )}
+                      {loginFormik.touched.email &&
+                        loginFormik.errors.email && (
+                          <span style={{ color: "red" }}>
+                            {loginFormik.errors.email}
+                          </span>
+                        )}
                     </Form.Item>
                     <Form.Item>
                       <Input.Password
                         placeholder="Password"
-                        {...formik.getFieldProps('password')}
+                        {...loginFormik.getFieldProps("password")}
                       />
-                      {formik.touched.password && formik.errors.password && (
-                        <span style={{ color: 'red' }}>{formik.errors.password}</span>
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      <Input.Password
-                        placeholder="Confirm Password"
-                        {...formik.getFieldProps('confirmPassword')}
-                      />
-                      {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                        <span style={{ color: 'red' }}>{formik.errors.confirmPassword}</span>
-                      )}
+                      {loginFormik.touched.password &&
+                        loginFormik.errors.password && (
+                          <span style={{ color: "red" }}>
+                            {loginFormik.errors.password}
+                          </span>
+                        )}
                     </Form.Item>
                     <Form.Item>
                       <Button
                         type="primary"
                         htmlType="submit"
                         style={{
-                          width: '100%',
-                          backgroundColor: '#fd0',
-                          color: 'black',
+                          width: "100%",
+                          backgroundColor: "#fd0",
+                          color: "black",
+                        }}
+                      >
+                        Log in
+                      </Button>
+                      New to iticket.az?{" "}
+                      <a onClick={switchToRegister}>Sign up now</a>
+                    </Form.Item>
+                  </Form>
+                )}
+
+                {activeTab === "register" && (
+                  <Form name="register" onFinish={formik.handleSubmit}>
+                    <Form.Item>
+                      <Input
+                        placeholder="First Name"
+                        {...formik.getFieldProps("firstName")}
+                      />
+                      {formik.touched.firstName && formik.errors.firstName && (
+                        <span style={{ color: "red" }}>
+                          {formik.errors.firstName}
+                        </span>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Input
+                        placeholder="Last Name"
+                        {...formik.getFieldProps("lastName")}
+                      />
+                      {formik.touched.lastName && formik.errors.lastName && (
+                        <span style={{ color: "red" }}>
+                          {formik.errors.lastName}
+                        </span>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Input
+                        placeholder="Mobile"
+                        {...formik.getFieldProps("mobile")}
+                      />
+                      {formik.touched.mobile && formik.errors.mobile && (
+                        <span style={{ color: "red" }}>
+                          {formik.errors.mobile}
+                        </span>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Input
+                        placeholder="Email"
+                        {...formik.getFieldProps("email")}
+                      />
+                      {formik.touched.email && formik.errors.email && (
+                        <span style={{ color: "red" }}>
+                          {formik.errors.email}
+                        </span>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Input.Password
+                        placeholder="Password"
+                        {...formik.getFieldProps("password")}
+                      />
+                      {formik.touched.password && formik.errors.password && (
+                        <span style={{ color: "red" }}>
+                          {formik.errors.password}
+                        </span>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Input.Password
+                        placeholder="Confirm Password"
+                        {...formik.getFieldProps("confirmPassword")}
+                      />
+                      {formik.touched.confirmPassword &&
+                        formik.errors.confirmPassword && (
+                          <span style={{ color: "red" }}>
+                            {formik.errors.confirmPassword}
+                          </span>
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#fd0",
+                          color: "black",
                         }}
                       >
                         Register
                       </Button>
-                      Already have an account? <a onClick={switchToLogin}>Log in here</a>
+                      Already have an account?{" "}
+                      <a onClick={switchToLogin}>Log in here</a>
                     </Form.Item>
                   </Form>
                 )}
+              </Modal>
+              <Modal
+                title="Verify"
+                visible={isVerifyModalOpen}
+                onCancel={handleVerifyCancel}
+                footer={null}
+                className={styles.personModel}
+                style={{ padding: "60px" }}
+              >
+                <Form.Item>
+                  <Input
+                    placeholder="Verify Code"
+                    {...loginFormik.getFieldProps("verifyCode")}
+                  />
+                </Form.Item>
+                <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#fd0",
+                          color: "black",
+                        }}
+                        onClick={handleVerifyCode} 
+                      >
+                        Verify
+                      </Button>
+                      
+                    </Form.Item>
               </Modal>
             </span>
           </div>

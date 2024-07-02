@@ -1,6 +1,7 @@
 import Concert from "../pages/Concert";
 import Detail from "../pages/Detail";
 import Events from "../pages/Events";
+import Favorites from "../pages/Favorites";
 import GiftCard from "../pages/GiftCard";
 import Home from "../pages/Home";
 import Kids from "../pages/Kids";
@@ -57,7 +58,11 @@ export const ROUTES = [
         element:<GiftCard/>
       },
       {
-        path:"update-pass",
+        path:"favorites",
+        element:<Favorites/>
+      },
+      {
+        path:"update-pass/:id/token",
         element:<UptadePas/>
       }
     ],

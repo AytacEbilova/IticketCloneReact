@@ -7,8 +7,7 @@ import { userApi } from './userApi'
 export const store = configureStore({
   reducer: {
     [eventApi.reducerPath]: eventApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    wishlists: wishlistSlice
+    [userApi.reducerPath]: userApi.reducer
   },
   
   middleware: (getDefaultMiddleware) =>

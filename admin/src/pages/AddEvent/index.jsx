@@ -29,10 +29,10 @@ const AddEvent = () => {
     },
     validationSchema: eventSchema,
     onSubmit: async (values, actions) => {
-      console.log("Submitting values: ", values);  // Log the values before submission
+      console.log("Submitting values: ", values);  
       try {
         const response = await postEvent(values);
-        console.log("Response: ", response);  // Log the API response
+        console.log("Response: ", response); 
 
         Swal.fire({
           title: "Added successfully!",

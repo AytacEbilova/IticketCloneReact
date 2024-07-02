@@ -144,12 +144,12 @@
 
 
 .promotion {
-    padding-top: 100px;
+    margin-top: -100px;
+    margin-bottom: -100px;
 }
 
 .theatre {
     padding: 100px 0;
-
 
     .eventh3 {
         font-weight: 600;
@@ -163,6 +163,7 @@
     .cards {
         display: flex;
         gap: 30px;
+        background-color: transparent;
 
         .card {
             position: relative;
