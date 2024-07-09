@@ -55,7 +55,9 @@ const Favorites = () => {
   };
 
   return (
-    <div className={styles.concerts}  style={{padding:'100px'}}>
+    <div className={styles.concerts} >
+        <div className={styles.whiteheader}
+      style={{height:"140px",backgroundColor:"white", width:"100%"}}></div>
       <div className="container">
         <h2 className={styles.eventh2}>Favorites</h2>
         <Row

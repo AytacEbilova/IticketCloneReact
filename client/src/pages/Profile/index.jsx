@@ -96,7 +96,7 @@ const Profile = () => {
     <div className={styles.personArea}>
       <div className="container">
         <Grid container spacing={2}>
-          <Grid item xs={8} lg={8}>
+        <Grid item xs={12} md={8}>
             <div className={styles.personalContent}>
               <h1>Personal Data</h1>
               <TextField
@@ -194,7 +194,7 @@ const Profile = () => {
                 </ToggleButton>
               </ToggleButtonGroup>
               <div>
-                <div style={{ display: "flex", gap: "200px" }}>
+                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
                   <Button className={styles.btn} onClick={handleSaveChanges}>
                     Save Changes
                   </Button>
@@ -205,7 +205,7 @@ const Profile = () => {
               </div>
             </div>
           </Grid>
-          <Grid item xs={4} lg={4}>
+          <Grid item xs={12} md={4}>
             <div
               className={styles.tab}
               onClick={() => handleTabChange("profile")}
@@ -214,6 +214,7 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
+                marginBottom: "8px"
               }}
             >
               Profile
@@ -226,6 +227,7 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
+                marginBottom: "8px"
               }}
             >
               Wallet
@@ -238,6 +240,7 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
+                marginBottom: "8px"
               }}
             >
               "iGift" Gift Card
@@ -250,6 +253,7 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
+                marginBottom: "8px"
               }}
             >
               My Cards
@@ -264,6 +268,7 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
+                marginBottom: "8px"
               }}
             >
               Update Password
@@ -279,11 +284,11 @@ const Profile = () => {
                 cursor: "pointer",
                 padding: "16px",
                 border: "1px solid #d9d9d9",
-                
+                marginBottom: "8px"
               }}
             >
               Logout
-              <MdOutlineLogout size={22} style={{marginLeft:"250px"}} />
+              <MdOutlineLogout size={22} style={{marginLeft:"auto"}} />
             </div>
           </Grid>
         </Grid>

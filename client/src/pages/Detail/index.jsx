@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useGetEventsQuery, useGetOneEventQuery } from "../../services/redux/eventApi";
+import {
+  useGetEventsQuery,
+  useGetOneEventQuery,
+} from "../../services/redux/eventApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "../Detail/detail.module.scss";
 import { IoMdHeartEmpty } from "react-icons/io";
@@ -16,7 +19,8 @@ const Detail = () => {
   const { data: event } = useGetOneEventQuery(id);
   const { data: events } = useGetEventsQuery();
   const navigate = useNavigate();
-  const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext);
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useContext(WishlistContext);
 
   const handleGetTickets = () => {
     navigate(`/select-seats/${id}`);
@@ -62,7 +66,9 @@ const Detail = () => {
                     <FaHeart
                       className={styles.icon}
                       style={{
-                        color: wishlist.some((item) => item._id === event.data._id)
+                        color: wishlist.some(
+                          (item) => item._id === event.data._id
+                        )
                           ? "red"
                           : "inherit",
                       }}
@@ -182,7 +188,7 @@ const Detail = () => {
                 </div>
                 <div className={styles.eventPrice}>
                   <p>Price</p>
-                  <p>{event.data.price}  ₼</p>
+                  <p>{event.data.price} ₼</p>
                 </div>
                 <button
                   className={styles.getTicketsButton}
@@ -220,7 +226,9 @@ const Detail = () => {
                         onClick={() => handleTabClick("language")}
                       >
                         <button type="button">
-                          <h3 className={styles.tabH2}>Age restriction/Language</h3>
+                          <h3 className={styles.tabH2}>
+                            Age restriction/Language
+                          </h3>
                         </button>
                       </div>
                     </div>
@@ -276,26 +284,21 @@ const Detail = () => {
                 </Grid>
                 <Grid item xs={12} md={6} lg={5} sm={12} className={styles.all}>
                   <div className={styles.venueCard}>
-                    <img
-                      src=" https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png"
-                      alt=""
-                    />
-                    <h3>{event.data.hall.name}</h3>
-                    <p>
-                     
-                      {event.data.hall.location}
-                    </p>
+                    <div>
+                      <h3>{event.data.hall.name}</h3>
+                      <p>{event.data.hall.location}</p>
 
-                    <h3>Phone</h3>
-                    <a href="tel:(+994 12) 493 55 11">(+994 12) 493 55 11</a>
-                    <h3>Mobile</h3>
-                    <a href="tel:+994 50 493 55 11"> +994 50 493 55 11</a>
-                    <div className={styles.btn}>
-                      <a href="http://maps.google.com/maps?q=40.3778158,49.8412733">
-                        <button>Get Direction</button>
-                      </a>
+                      <h3>Phone</h3>
+                      <a href="tel:(+994 12) 493 55 11">(+994 12) 493 55 11</a>
+                      <h3>Mobile</h3>
+                      <a href="tel:+994 50 493 55 11"> +994 50 493 55 11</a>
+                      <div className={styles.btn}>
+                        <a href="http://maps.google.com/maps?q=40.3778158,49.8412733">
+                          <button>Get Direction</button>
+                        </a>
+                      </div>
+                      <p></p>
                     </div>
-                    <p></p>
                   </div>
                 </Grid>
               </>
@@ -331,28 +334,31 @@ const Detail = () => {
                   lg={8}
                 >
                   <Link to={`/detail/${event._id}`}>
-                  
-                  <div className={styles.card}>
-                    <div className={styles.text}>
-                      <h3>{event.createdAt}</h3>
-                      <p>
-                        {event.location} • <span>{event.title}</span>
-                      </p>
+                    <div className={styles.card}>
+                      <div className={styles.text}>
+                        <h3>{event.createdAt}</h3>
+                        <p>
+                          {event.location} • <span>{event.title}</span>
+                        </p>
+                      </div>
+                      <div className={styles.imgCont}>
+                        <img
+                          src={event.mainImg}
+                          alt=""
+                          className={styles.img1}
+                        />
+                        <img
+                          src={event.secondImg}
+                          alt=""
+                          className={styles.img2}
+                        />
+                      </div>
+                      <span className={styles.bn}>
+                        from
+                        <span className={styles.price}> {event.price} ₼</span>
+                      </span>
                     </div>
-                    <div className={styles.imgCont}>
-                      <img src={event.mainImg} alt="" className={styles.img1} />
-                      <img
-                        src={event.secondImg}
-                        alt=""
-                        className={styles.img2}
-                      />
-                    </div>
-                    <span className={styles.bn}>
-                      from
-                      <span className={styles.price}> {event.price} ₼</span>
-                    </span>
-                  </div>
-                   </Link>
+                  </Link>
                 </Col>
               ))}
           </Row>

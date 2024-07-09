@@ -86,18 +86,9 @@ const Home = () => {
               className="mySwiper"
               autoplay={{ delay: 3000 }}
               breakpoints={{
-                320: {
-                  // Mobile
-                  slidesPerView: 1,
-                },
-                640: {
-                  // Tablets
-                  slidesPerView: 2,
-                },
-                1024: {
-                  // Desktops
-                  slidesPerView: 3,
-                },
+                640: { slidesPerView: 1, spaceBetween: 10 },
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 30 },
               }}
             >
               {events &&
@@ -152,7 +143,7 @@ const Home = () => {
         </div>
       </section>
       <section className={styles.theatre}>
-        //
+        
         <div className="container">
           <h3 className={styles.eventh3}>Theatre</h3>
           <Swiper
@@ -161,6 +152,20 @@ const Home = () => {
             className="mySwiper"
             slidesPerView={3}
             autoplay={{ delay: 3000 }}
+            breakpoints={{
+              320: {
+                // Mobile
+                slidesPerView: 1,
+              },
+              640: {
+                // Tablets
+                slidesPerView: 2,
+              },
+              1024: {
+                // Desktops
+                slidesPerView: 3,
+              },
+            }}
           >
             {events &&
               events?.data
@@ -220,12 +225,17 @@ const Home = () => {
             slidesPerView={3}
             spaceBetween={30}
             autoplay={{ delay: 3000 }}
+            breakpoints={{
+              640: { slidesPerView: 1, spaceBetween: 10 },
+              768: { slidesPerView: 2, spaceBetween: 20 },
+              1024: { slidesPerView: 3, spaceBetween: 30 },
+            }}
           >
             {events &&
               events?.data
                 ?.filter((event) => event.categoryName === "kids")
                 .map((event) => (
-                  <SwiperSlide className={styles.cards}>
+                  <SwiperSlide className={styles.cards} key={event._id}>
                     <Link
                       to={`/detail/${event._id}`}
                       style={{ textDecoration: "none" }}
@@ -258,6 +268,8 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
+      <div className={styles.promo}>
+
         <div className="container">
           <section className={styles.app}>
             <div className={styles.content}>
@@ -297,6 +309,8 @@ const Home = () => {
             />
           </section>
         </div>
+      </div>
+
     </>
   );
 };

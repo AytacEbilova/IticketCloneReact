@@ -291,6 +291,42 @@ const Header = () => {
     <header>
       <div className="container">
         <div className={styles.all}>
+        <div className="mobileNav desktopNone">
+            <button onClick={toggleMobileNav} className="mobileNavButton">
+              {isMobileNavVisible ? "x" : "="}
+            </button>
+            {isMobileNavVisible && (
+              <nav className="mobileNavMenu">
+                <ul>
+                  <li>
+                    <Link to="/events" onClick={toggleMobileNav}>
+                      All Events
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/concerts" onClick={toggleMobileNav}>
+                      Concerts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/kids" onClick={toggleMobileNav}>
+                      Kids
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/theatre" onClick={toggleMobileNav}>
+                      Theatre
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/sport" onClick={toggleMobileNav}>
+                      Sport
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            )}
+          </div>
           <div className={styles.logo}>
             <Link to="/">
               <svg
@@ -402,7 +438,7 @@ const Header = () => {
             <NavLink to={"/favorites"} style={{ color: textColor }}>
               <CiHeart className={styles.icon} />
             </NavLink>
-            <a href="#" onClick={handleSearch} style={{ color: textColor }}>
+            <a href="#" className="d-md-none" onClick={handleSearch} style={{ color: textColor }}>
               <CiSearch className={styles.icon} />
             </a>
             {showSearchInput && (
@@ -620,42 +656,7 @@ const Header = () => {
               </Modal> */}
             </span>
           </div>
-          <div className="mobileNav desktopNone">
-            <button onClick={toggleMobileNav} className="mobileNavButton">
-              {isMobileNavVisible ? "x" : "="}
-            </button>
-            {isMobileNavVisible && (
-              <nav className="mobileNavMenu">
-                <ul>
-                  <li>
-                    <Link to="/events" onClick={toggleMobileNav}>
-                      All Events
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/concerts" onClick={toggleMobileNav}>
-                      Concerts
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/kids" onClick={toggleMobileNav}>
-                      Kids
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/theatre" onClick={toggleMobileNav}>
-                      Theatre
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/sport" onClick={toggleMobileNav}>
-                      Sport
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            )}
-          </div>
+         
         </div>
       </div>
     </header>

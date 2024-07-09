@@ -64,6 +64,7 @@
 .mobileNav {
   display: none;
 }
+
 .mobileNavButton {
   background: none;
   border: none;
@@ -71,23 +72,27 @@
   cursor: pointer;
   color: #000;
 }
+
 .mobileNavMenu {
   position: absolute;
-  top: 120px;
+  top: 100px;
   left: 0;
   width: 100%;
   background: white;
   border: 1px solid #ddd;
   z-index: 1000;
 }
+
 .mobileNavMenu ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .mobileNavMenu li {
   border-bottom: 1px solid #ddd;
 }
+
 .mobileNavMenu a {
   display: block;
   padding: 10px;
@@ -95,11 +100,16 @@
   color: #000;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .desktopNone {
     display: block;
   }
+
   .middleSect {
     display: none;
+  }
+
+  .d-md-none {
+    display: none !important;
   }
 }
