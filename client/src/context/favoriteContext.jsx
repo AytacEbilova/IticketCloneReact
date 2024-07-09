@@ -1,19 +1,29 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
+export const WishlistContext = createContext();
 
-export const FavContext=createContext(null);
+export const WishlistProvider = ({ children }) => {
+  const [wishlist, setWishlist] = useState(() => {
+    const savedWishlist = localStorage.getItem("wishlist");
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
 
-const FavProvider=({children})=>{
-    let localFav=JSON.parse(localStorage.getItem('fav'));
-    if(!localFav){
-        localStorage.setItem("fav",JSON.stringify([]));
-    }
-    let[fav,setFav]=useState(localFav || []);
-    return(
-        <FavContext.Provider value={{fav,setFav}}>
-            {children}
-        </FavContext.Provider>
-    )
-}
+  useEffect(() => {
+    
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
 
-export default FavProvider
+  const addToWishlist = (event) => {
+    setWishlist((prevWishlist) => [...prevWishlist, event]);
+  };
+
+  const removeFromWishlist = (eventId) => {
+    setWishlist((prevWishlist) => prevWishlist.filter((item) => item._id !== eventId));
+  };
+
+  return (
+    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist }}>
+      {children}
+    </WishlistContext.Provider>
+  );
+};

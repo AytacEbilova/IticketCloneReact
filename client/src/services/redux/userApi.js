@@ -28,13 +28,14 @@ export const userApi = createApi({
     }),
 
     updateUser:builder.mutation({
-      query:(id,payload)=>({
+      query:({id,payload})=>({
         url: `users/${id}`,
         method: 'PATCH',
         body: payload,
         headers: {
           'Content-Type': 'application/json',
         },
+        
       })
     })
   }),  

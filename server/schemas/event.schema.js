@@ -1,19 +1,20 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose');
+const hallSchema = require('./hall.schema');
 
-const eventSchema=new mongoose.Schema({
-    title:{type:String,require:true},
-    mainImg:{type:String,require:true},
-    secondImg:{type:String,require:true},
-    price:{type:Number,require:true},
-    description:{type:String,require:true},
-    sellCount:{type:Number,require:true},
-    remainCount:{type:Number,require:true},
-    basketCount:{type:Number,require:true},
-    createdAt:{type:String,require:true}  ,
-    categoryName:{type:String,require:true},
-    location:{type:String,require:true},
-    language:{type:String,require:true},
-    detailImg:{type:String,require:true}
-  });
-  
-  module.exports=eventSchema;
+const eventSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  mainImg: { type: String, required: true },
+  secondImg: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+  sellCount: { type: Number, required: true },
+  remainCount: { type: Number, required: true },
+  basketCount: { type: Number, required: true },
+  createdAt: { type: String, required: true },
+  categoryName: { type: String, required: true },
+  language: { type: String, required: true },
+  hall: { type: hallSchema, required: true },
+  detailImg: { type: String, required: true }
+});
+
+module.exports = eventSchema;

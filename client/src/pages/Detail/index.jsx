@@ -1,9 +1,6 @@
 import React, { useContext, useState } from "react";
-import {
-  useGetEventsQuery,
-  useGetOneEventQuery,
-} from "../../services/redux/eventApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useGetEventsQuery, useGetOneEventQuery } from "../../services/redux/eventApi";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "../Detail/detail.module.scss";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { PiShareFat } from "react-icons/pi";
@@ -11,31 +8,33 @@ import { Button } from "antd";
 import { Col, Row } from "antd";
 import { FaHeart } from "react-icons/fa";
 import Grid from "@mui/material/Grid";
-import { FavContext } from "../../context/favoriteContext";
+import { WishlistContext } from "../../context/favoriteContext";
 
 const Detail = () => {
   const [activeTab, setActiveTab] = useState("about");
-  const { fav, setFav } = useContext(FavContext);
-  
   const { id } = useParams();
   const { data: event } = useGetOneEventQuery(id);
   const { data: events } = useGetEventsQuery();
-  console.log(event);
   const navigate = useNavigate();
+  const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext);
+
+  const handleGetTickets = () => {
+    navigate(`/select-seats/${id}`);
+  };
+
   const handleWishlist = (event) => {
-    const addToFav = fav.find((x) => x._id == event._id);
-    if (!addToFav) {
-      setFav([...fav, event]);
-      localStorage.setItem("fav", JSON.stringify([...fav, event]));
+    const isInWishlist = wishlist.some((item) => item._id === event.data._id);
+    if (isInWishlist) {
+      removeFromWishlist(event.data._id);
     } else {
-      const uptadeFav = fav.filter((x) => x._id != event._id);
-      setFav(uptadeFav);
-      localStorage.setItem("fav", JSON.stringify("fav", uptadeFav));
+      addToWishlist(event.data);
     }
   };
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   return (
     <div>
       {event && (
@@ -52,8 +51,8 @@ const Detail = () => {
                 </p>
 
                 <div className={styles.btn}>
-
-                  <Button className={styles.buttonn}
+                  <Button
+                    className={styles.buttonn}
                     onClick={() => handleWishlist(event)}
                     style={{
                       backgroundColor: "white",
@@ -61,9 +60,9 @@ const Detail = () => {
                     }}
                   >
                     <FaHeart
-                    className={styles.icon}
+                      className={styles.icon}
                       style={{
-                        color: fav.find((x) => x._id === event._id)
+                        color: wishlist.some((item) => item._id === event.data._id)
                           ? "red"
                           : "inherit",
                       }}
@@ -164,7 +163,38 @@ const Detail = () => {
           </Row>
         </div>
       </section>
-
+      <section className={styles.sect6} id={styles.getTicketSect6}>
+        <div className="container">
+          <div className={styles.eventItems}>
+            {event && (
+              <div key={event._id} className={styles.eventItem}>
+                <div className={styles.eventDetails}>
+                  <div className={styles.eventTitle}>
+                    {event.data.title}(Language: {event.data.language})
+                  </div>
+                  <div className={styles.eventLocation}>
+                    {event.data.hall.name}
+                  </div>
+                </div>
+                <div className={styles.eventDate}>
+                  <p>Date</p>
+                  <p>{event.data.createdAt}</p>
+                </div>
+                <div className={styles.eventPrice}>
+                  <p>Price</p>
+                  <p>{event.data.price}  ₼</p>
+                </div>
+                <button
+                  className={styles.getTicketsButton}
+                  onClick={handleGetTickets}
+                >
+                  Get tickets
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
       <section className={styles.sect3}>
         <div className="container">
           <Grid container spacing={2}>
@@ -180,7 +210,7 @@ const Detail = () => {
                         onClick={() => handleTabClick("about")}
                       >
                         <button type="button">
-                          <h2>About event</h2>
+                          <h3 className={styles.tabH2}>About event</h3>
                         </button>
                       </div>
                       <div
@@ -190,7 +220,7 @@ const Detail = () => {
                         onClick={() => handleTabClick("language")}
                       >
                         <button type="button">
-                          <h2>Age restriction/Language</h2>
+                          <h3 className={styles.tabH2}>Age restriction/Language</h3>
                         </button>
                       </div>
                     </div>
@@ -224,13 +254,14 @@ const Detail = () => {
           </Grid>
         </div>
       </section>
+
       <div className="container">
         <hr style={{ backgroundColor: "#e9ecf2" }} />
       </div>
 
       <section className={styles.sect5}>
         <div className="container">
-          <h2 className={styles.eventh2}>Venue location</h2>
+          <h2>Venue location</h2>
           <Grid container spacing={2}>
             {event && (
               <>
@@ -249,11 +280,10 @@ const Detail = () => {
                       src=" https://cdn.iticket.az/venue/icon/OGFa55KTj4TVrfKMmrYYUF8uXPUTTb2q.png"
                       alt=""
                     />
-                    <h3>{event.data.location}</h3>
-
+                    <h3>{event.data.hall.name}</h3>
                     <p>
-                      Bulbul avenue 35,
-                      <br /> Baku, Azerbaijan
+                     
+                      {event.data.hall.location}
                     </p>
 
                     <h3>Phone</h3>
@@ -275,7 +305,7 @@ const Detail = () => {
       </section>
 
       <div className="container">
-        <hr style={{ backgroundColor: "#e9ecf2", height: "2px" }} />
+        <hr style={{ backgroundColor: "#E4E7EB" }} />
       </div>
       <section className={styles.sect4}>
         <div className="container">
@@ -300,6 +330,8 @@ const Detail = () => {
                   md={12}
                   lg={8}
                 >
+                  <Link to={`/detail/${event._id}`}>
+                  
                   <div className={styles.card}>
                     <div className={styles.text}>
                       <h3>{event.createdAt}</h3>
@@ -317,9 +349,10 @@ const Detail = () => {
                     </div>
                     <span className={styles.bn}>
                       from
-                      <span className={styles.price}> {event.price}</span>
+                      <span className={styles.price}> {event.price} ₼</span>
                     </span>
                   </div>
+                   </Link>
                 </Col>
               ))}
           </Row>

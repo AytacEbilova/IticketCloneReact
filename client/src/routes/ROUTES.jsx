@@ -1,3 +1,5 @@
+import BankCard from "../pages/BankCard";
+import Basket from "../pages/Basket";
 import Concert from "../pages/Concert";
 import Detail from "../pages/Detail";
 import Events from "../pages/Events";
@@ -7,10 +9,12 @@ import Home from "../pages/Home";
 import Kids from "../pages/Kids";
 import MainRoot from "../pages/MainRoot";
 import Profile from "../pages/Profile";
+import SeatSelection from "../pages/Seat";
 import Sport from "../pages/Sport";
 import Theatre from "../pages/Theatre";
 import UptadePas from "../pages/UpdatePas";
 import Wallet from "../pages/Wallet";
+import WalletCard from "../pages/WalletCard";
 
 export const ROUTES = [
   {
@@ -34,6 +38,22 @@ export const ROUTES = [
         element: <Detail />,
       },
       {
+        path: "/select-seats/:id",
+        element: <SeatSelection/>
+      },
+      {
+        path: '/basket',
+        element: <Basket />,
+      },
+      {
+        path: '/bank-card',
+        element: <BankCard />,
+      },
+      {
+        path: '/wallet-card/:id',
+        element: <WalletCard />,
+      },
+      {
         path: "kids",
         element: <Kids />,
       },
@@ -50,7 +70,7 @@ export const ROUTES = [
         element:<Profile/>
       },
       {
-        path:"wallet",
+        path:"wallet/:id",
         element:<Wallet/>
       },
       {
@@ -62,7 +82,7 @@ export const ROUTES = [
         element:<Favorites/>
       },
       {
-        path:"update-pass/:id/token",
+        path:"update-pass/:id",
         element:<UptadePas/>
       }
     ],

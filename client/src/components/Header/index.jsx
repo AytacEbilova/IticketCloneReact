@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Link,
   NavLink,
   useLocation,
   useNavigate,
   useParams,
+  matchPath,
 } from "react-router-dom";
 import styles from "../Header/header.module.scss";
 import { CiHeart, CiSearch } from "react-icons/ci";
@@ -18,10 +19,8 @@ import { endpoints } from "../../services/api/constant.js";
 import Swal from "sweetalert2";
 import loginValidation from "../../validation/login.validation.js";
 import { useGetOneUserQuery } from "../../services/redux/userApi.js";
-import { FavContext } from "../../context/favoriteContext.jsx";
-const sendVerifyEmail = require("../helpers/sendMail");
-
-// import { useContext } from "react"
+import { useGetEventsQuery } from "../../services/redux/eventApi.js";
+import axios from "axios";
 
 const Header = () => {
   const location = useLocation();
@@ -30,24 +29,63 @@ const Header = () => {
   const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const [registeredEmail, setRegisteredEmail] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [orderCount, setOrderCount] = useState(0);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
   const userDataJson = localStorage.getItem("user");
+  const menuVisible = userDataJson ? "block" : "none";
   const { id } = useParams();
   const user = JSON.parse(userDataJson);
-  const { data: userId } = useGetOneUserQuery(id);
-  const { fav } = useContext(FavContext);
-  // const userId= user?._id
+  const [events, setEvents] = useState();
+  const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
+
+  const toggleMobileNav = () => {
+    setIsMobileNavVisible(!isMobileNavVisible);
+  };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/events");
+        setEvents(response.data.data);
+      } catch (error) {
+        console.log("Error:", err);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    handleSearchCancel();
+  }, [location]);
+
+  useEffect(() => {
+    const updateOrderCount = () => {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      setOrderCount(orders.length);
+    };
+
+    updateOrderCount();
+    window.addEventListener("storage", updateOrderCount);
+
+    return () => window.removeEventListener("storage", updateOrderCount);
+  }, []);
 
   const handleClick = (path) => {
     setActiveLink(path);
   };
+
   const getUser = () => {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const handleVerifyCancel = () => {
     setIsModalOpen(false);
   };
@@ -109,20 +147,49 @@ const Header = () => {
       });
     }
   };
+
   const showModal = () => {
     const user = getUser();
     if (user) {
-      navigate(`/profile/${userId}`);
+      navigate(`/profile/${user?._id}`);
     } else {
       setIsModalOpen(true);
     }
   };
 
-  const handleVerifyCode = ()=>{
+  const handleVerifyCode = () => {};
 
-  }
+  const handleSearch = () => {
+    setShowSearchInput(!showSearchInput);
+    if (!showSearchInput) {
+      document.body.classList.add(styles.searchOpen);
+    } else {
+      document.body.classList.remove(styles.searchOpen);
+    }
+    setSearchQuery("");
+    setSearchResults([]);
+  };
 
-  //formik
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    console.log(query);
+    setSearchQuery(query);
+    if (query) {
+      const results = events?.filter((event) =>
+        event.title.toLowerCase().includes(query?.toLowerCase())
+      );
+      console.log(results);
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const handleSearchCancel = (e) => {
+    setShowSearchInput(false);
+    document.body.classList.remove(styles.searchOpen);
+  };
+
   const loginFormik = useFormik({
     initialValues: {
       email: "",
@@ -134,6 +201,7 @@ const Header = () => {
       actions.resetForm();
     },
   });
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -156,13 +224,11 @@ const Header = () => {
 
       try {
         console.log("Sending request to:", endpoints.users);
-        const randomCode = Math.floor(100000 + Math.random() * 900000);
-        if (email) {
-          localStorage.setItem(email, randomCode);
-        }
-        sendVerifyEmail(newUser.email, token);
-
-        //open modal
+        // const randomCode = Math.floor(100000 + Math.random() * 900000);
+        // if (email) {
+        //   localStorage.setItem(email, randomCode);
+        // }
+        //sendVerifyEmail(newUser.email, token);
 
         const response = await controller.post(endpoints.users, newUser);
         console.log("Response received:", response);
@@ -173,7 +239,7 @@ const Header = () => {
             icon: "error",
             title: response.response.data.message,
             showConfirmButton: false,
-            timer: 1000,
+            timer: 3000,
           });
         } else {
           Swal.fire({
@@ -201,21 +267,25 @@ const Header = () => {
     },
   });
   const menu = (
-    <Menu>
+    <Menu style={{ visible: menuVisible }}>
       <Menu.Item key="1">
-        <Link to={`/profile/${userId?._id}`}>Profile</Link>
+        <Link to={`/profile/${user?._id}`}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/wallet">Wallet</Link>
+        <Link to={`/wallet/${user?._id}`}>Wallet</Link>
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to="/giftcard">GiftCard</Link>
+        <Link to="/giftcard">Coupons</Link>
       </Menu.Item>
       <Menu.Item key="4">
-        <Link to="/update-pass">Update Password</Link>
+        <Link to={`/update-pass/${user?._id}`}>Update Password</Link>
       </Menu.Item>
     </Menu>
   );
+
+  const isDetailPage = matchPath("/detail/:id", location.pathname);
+  const textColor =
+    location.pathname === "/" || isDetailPage ? "#fefefe" : "#000000";
 
   return (
     <header>
@@ -244,7 +314,7 @@ const Header = () => {
                   d="M13.5391 10.6494C12.1313 10.6494 10.9897 11.7947 10.9897 13.1988C10.9897 14.6061 12.1313 15.7474 13.5391 15.7474C14.9468 15.7474 16.0885 14.6061 16.0885 13.1988C16.0885 11.7947 14.9468 10.6494 13.5391 10.6494Z"
                   fill="#828283"
                 ></path>{" "}
-                <g className="text-color">
+                <g style={{ fill: textColor }}>
                   <path d="M38.7801 29.0307C38.2507 28.7414 37.9874 28.0471 37.9874 26.9585V20.1295H42.3205V17.1005H37.9874V13.1699L34.196 14.4087V17.1005H31.4099V20.1295H34.196V26.7222C34.196 30.1005 35.9303 31.5536 36.9625 32.116C37.845 32.6009 38.7947 32.796 39.7299 32.796C41.3858 32.796 43.0037 32.1805 44.1454 31.4524L42.1813 28.6209C41.0552 29.3422 39.5458 29.4507 38.7801 29.0307Z"></path>{" "}
                   <path d="M48.6942 10.6494C47.2864 10.6494 46.1444 11.7947 46.1444 13.1988C46.1444 14.6061 47.2864 15.7474 48.6942 15.7474C50.102 15.7474 51.2436 14.6061 51.2436 13.1988C51.2436 11.7947 50.102 10.6494 48.6942 10.6494Z"></path>{" "}
                   <path d="M46.7986 32.3849H50.5867V17.1028L46.7986 18.3792V32.3849Z"></path>{" "}
@@ -268,6 +338,7 @@ const Header = () => {
             <ul>
               <li>
                 <Link
+                  style={{ color: textColor }}
                   to="/events"
                   className={`${styles.link} ${
                     activeLink === "/events" ? styles.active : ""
@@ -279,6 +350,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
+                  style={{ color: textColor }}
                   to="/concerts"
                   className={`${styles.link} ${
                     activeLink === "/concerts" ? styles.active : ""
@@ -290,6 +362,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
+                  style={{ color: textColor }}
                   to="/kids"
                   className={`${styles.link} ${
                     activeLink === "/kids" ? styles.active : ""
@@ -301,6 +374,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
+                  style={{ color: textColor }}
                   to="/theatre"
                   className={`${styles.link} ${
                     activeLink === "/theatre" ? styles.active : ""
@@ -312,6 +386,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
+                  style={{ color: textColor }}
                   to="/sport"
                   className={`${styles.link} ${
                     activeLink === "/sport" ? styles.active : ""
@@ -324,22 +399,53 @@ const Header = () => {
             </ul>
           </div>
           <div className={styles.lastSect}>
-            <NavLink to={"/favorites"}>
+            <NavLink to={"/favorites"} style={{ color: textColor }}>
               <CiHeart className={styles.icon} />
-              <sub>{fav.length}</sub>
             </NavLink>
-            <a href="">
+            <a href="#" onClick={handleSearch} style={{ color: textColor }}>
               <CiSearch className={styles.icon} />
             </a>
-            <a href="">
+            {showSearchInput && (
+              <>
+                <div className={styles.searchContainer}>
+                  <Input
+                    placeholder="Search events"
+                    value={searchQuery}
+                    onChange={handleInputChange}
+                    style={{
+                      fontSize: "24px",
+                      display: "inline-block",
+                      width: "80%",
+                    }}
+                  />
+                  <Button onClick={handleSearchCancel}>X</Button>
+                </div>
+                <div className={styles.searchResults}>
+                  {searchResults.map((result) => (
+                    <div key={result._id} className={styles.searchResult}>
+                      <Link to={`/detail/${result._id}`}>{result.title}</Link>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            <Link to={"/basket"} style={{ color: textColor }}>
               <SlBasket className={styles.icon} />
-            </a>
+            </Link>
+            <span style={{ color: textColor }}>{orderCount}</span>
             <span className={styles.person}>
-              <Dropdown overlay={menu} trigger={["hover"]}>
-                <a onClick={showModal}>
-                  <IoPersonOutline />
-                </a>
-              </Dropdown>
+              {userDataJson && (
+                <Dropdown overlay={menu} trigger={["hover"]}>
+                  <a onClick={showModal}>
+                    <IoPersonOutline />
+                  </a>
+                </Dropdown>
+              )}
+                {!userDataJson && (
+                  <a onClick={showModal}>
+                    <IoPersonOutline />
+                  </a>
+              )}
               <Modal
                 title={activeTab === "login" ? "Login" : "Register"}
                 visible={isModalOpen}
@@ -398,7 +504,6 @@ const Header = () => {
                     </Form.Item>
                   </Form>
                 )}
-
                 {activeTab === "register" && (
                   <Form name="register" onFinish={formik.handleSubmit}>
                     <Form.Item>
@@ -486,7 +591,8 @@ const Header = () => {
                   </Form>
                 )}
               </Modal>
-              <Modal
+
+              {/* <Modal
                 title="Verify"
                 visible={isVerifyModalOpen}
                 onCancel={handleVerifyCancel}
@@ -495,28 +601,60 @@ const Header = () => {
                 style={{ padding: "60px" }}
               >
                 <Form.Item>
-                  <Input
-                    placeholder="Verify Code"
-                    {...loginFormik.getFieldProps("verifyCode")}
-                  />
+                  <Input placeholder="Verify Code" {...loginFormik.getFieldProps("verifyCode")} />
                 </Form.Item>
                 <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          width: "100%",
-                          backgroundColor: "#fd0",
-                          color: "black",
-                        }}
-                        onClick={handleVerifyCode} 
-                      >
-                        Verify
-                      </Button>
-                      
-                    </Form.Item>
-              </Modal>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#fd0",
+                      color: "black",
+                    }}
+                    onClick={handleVerifyCode}
+                  >
+                    Verify
+                  </Button>
+                </Form.Item>
+              </Modal> */}
             </span>
+          </div>
+          <div className="mobileNav desktopNone">
+            <button onClick={toggleMobileNav} className="mobileNavButton">
+              {isMobileNavVisible ? "x" : "="}
+            </button>
+            {isMobileNavVisible && (
+              <nav className="mobileNavMenu">
+                <ul>
+                  <li>
+                    <Link to="/events" onClick={toggleMobileNav}>
+                      All Events
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/concerts" onClick={toggleMobileNav}>
+                      Concerts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/kids" onClick={toggleMobileNav}>
+                      Kids
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/theatre" onClick={toggleMobileNav}>
+                      Theatre
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/sport" onClick={toggleMobileNav}>
+                      Sport
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            )}
           </div>
         </div>
       </div>

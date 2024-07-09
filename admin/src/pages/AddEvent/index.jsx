@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import eventSchema from "../../validation/event.validation";
-import { Button, TextField, Typography, Box, Paper } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  Paper,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import Swal from "sweetalert2";
 import {
   useGetEventsQuery,
   usePostEventsMutation,
 } from "../../service/eventApi";
+import { useGetHallsQuery } from "../../service/hallApi";
 
 const AddEvent = () => {
+  const [selectedHall, setSelectedHall] = useState("");
   const [postEvent] = usePostEventsMutation();
-  const { data, refetch } = useGetEventsQuery();
+  const { refetch } = useGetEventsQuery();
+  const { data: halls } = useGetHallsQuery();
 
   const formik = useFormik({
     initialValues: {
@@ -24,15 +37,23 @@ const AddEvent = () => {
       basketCount: "",
       createdAt: "",
       categoryName: "",
-      location: "",
       language: "",
+      hall: null,
+      detailImg: "",
     },
     validationSchema: eventSchema,
     onSubmit: async (values, actions) => {
-      console.log("Submitting values: ", values);  
+      console.log("Submitting values: ", values);
       try {
+        if (selectedHall) {
+          values.hall = selectedHall;
+        }
+        values.remainCount = selectedHall.seats.reduce(
+          (total, row) => total + row.length,
+          0
+        );
         const response = await postEvent(values);
-        console.log("Response: ", response); 
+        console.log("Response: ", response);
 
         Swal.fire({
           title: "Added successfully!",
@@ -41,6 +62,7 @@ const AddEvent = () => {
         });
 
         actions.resetForm();
+        setSelectedHall(""); 
         refetch();
       } catch (error) {
         console.error("Error submitting event: ", error);
@@ -136,7 +158,9 @@ const AddEvent = () => {
           label="Description"
           variant="outlined"
           fullWidth
-          error={formik.touched.description && Boolean(formik.errors.description)}
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
@@ -152,19 +176,7 @@ const AddEvent = () => {
           error={formik.touched.sellCount && Boolean(formik.errors.sellCount)}
           helperText={formik.touched.sellCount && formik.errors.sellCount}
         />
-        <TextField
-          value={formik.values.remainCount}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          name="remainCount"
-          id="remainCount"
-          type="number"
-          label="Remain Count"
-          variant="outlined"
-          fullWidth
-          error={formik.touched.remainCount && Boolean(formik.errors.remainCount)}
-          helperText={formik.touched.remainCount && formik.errors.remainCount}
-        />
+
         <TextField
           value={formik.values.basketCount}
           onChange={formik.handleChange}
@@ -175,7 +187,9 @@ const AddEvent = () => {
           label="Basket Count"
           variant="outlined"
           fullWidth
-          error={formik.touched.basketCount && Boolean(formik.errors.basketCount)}
+          error={
+            formik.touched.basketCount && Boolean(formik.errors.basketCount)
+          }
           helperText={formik.touched.basketCount && formik.errors.basketCount}
         />
         <TextField
@@ -184,13 +198,10 @@ const AddEvent = () => {
           onBlur={formik.handleBlur}
           name="createdAt"
           id="createdAt"
-          type="date"
+          type="text"
           label="Created At"
           variant="outlined"
           fullWidth
-          InputLabelProps={{
-            shrink: true,
-          }}
           error={formik.touched.createdAt && Boolean(formik.errors.createdAt)}
           helperText={formik.touched.createdAt && formik.errors.createdAt}
         />
@@ -204,22 +215,28 @@ const AddEvent = () => {
           label="Category Name"
           variant="outlined"
           fullWidth
-          error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
+          error={
+            formik.touched.categoryName && Boolean(formik.errors.categoryName)
+          }
           helperText={formik.touched.categoryName && formik.errors.categoryName}
         />
-        <TextField
-          value={formik.values.location}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          name="location"
-          id="location"
-          type="text"
-          label="Location"
-          variant="outlined"
-          fullWidth
-          error={formik.touched.location && Boolean(formik.errors.location)}
-          helperText={formik.touched.location && formik.errors.location}
-        />
+        <FormControl fullWidth variant="outlined">
+          <InputLabel id="hall-label">Hall</InputLabel>
+          <Select
+            labelId="hall-label"
+            id="hall"
+            value={selectedHall}
+            onChange={(e) => setSelectedHall(e.target.value)}
+            label="Hall"
+          >
+            {halls?.data &&
+              halls.data.map((hall) => (
+                <MenuItem key={hall._id} value={hall}>
+                  {hall.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <TextField
           value={formik.values.language}
           onChange={formik.handleChange}
@@ -232,6 +249,19 @@ const AddEvent = () => {
           fullWidth
           error={formik.touched.language && Boolean(formik.errors.language)}
           helperText={formik.touched.language && formik.errors.language}
+        />
+        <TextField
+          value={formik.values.detailImg}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          name="detailImg"
+          id="detailImg"
+          type="text"
+          label="Detail Image URL"
+          variant="outlined"
+          fullWidth
+          error={formik.touched.detailImg && Boolean(formik.errors.detailImg)}
+          helperText={formik.touched.detailImg && formik.errors.detailImg}
         />
         <Button variant="contained" type="submit" color="primary" size="large">
           Add Event

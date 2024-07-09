@@ -48,10 +48,6 @@ const Customers = () => {
       dataIndex: "email",
     },
     {
-      title: "Password",
-      dataIndex: "password",
-    },
-    {
       title: "Action",
       render: (_, record) => {
         return (

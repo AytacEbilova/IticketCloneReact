@@ -1,50 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { Select, Col, Row } from "antd";
-import axios from "axios";
+import { Select, Col, Row, DatePicker, Space, Slider } from "antd";
+import { useGetEventsQuery } from "../../services/redux/eventApi";
+import { useGetHallsQuery } from "../../services/redux/hallApi";
 import styles from "../Concert/concert.module.scss";
-import { DatePicker, Space } from "antd";
-import { Slider } from "antd";
+import { Link } from "react-router-dom";
 
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
 const Events = () => {
-  const [events, setEvents] = useState([]);
-  const [error, setError] = useState(null);
+  const { data: events } = useGetEventsQuery();
+  const { data: halls } = useGetHallsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/events");
-        setEvents(response.data.data);
-      } catch (err) {
-        console.log(err);
-        setError(err.message);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  console.log(halls) ;
 
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
   };
-  const handlePriceChange = (value) => {
-    setPriceRange(value);
-    filterEvents(value);
+
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
   };
 
-  const filterEvents = (priceRange) => {
-    const filtered = events.filter(
-      (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
-    );
+  const handlePriceChange = (value) => {
+    setPriceRange(value);
+  };
+
+  const filterEvents = () => {
+    const filtered = events?.data
+      .filter(
+        (event) =>
+          !selectedLocation || event.hall.name === selectedLocation
+      )
+      .filter((event) => {
+        if (selectedDate) {
+          const eventDate = new Date(event.createdAt);
+          const selectedDateObj = new Date(selectedDate);
+          return (
+            eventDate.getFullYear() === selectedDateObj.getFullYear() &&
+            eventDate.getMonth() === selectedDateObj.getMonth() &&
+            eventDate.getDate() === selectedDateObj.getDate()
+          );
+        }
+        return true;
+      })
+      .filter(
+        (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
+      );
     setFilteredEvents(filtered);
   };
 
+  useEffect(() => {
+    filterEvents();
+  }, [events, selectedLocation, selectedDate, priceRange]);
+
   return (
     <div className={styles.concerts}>
+      <div className={styles.whiteheader}
+      style={{height:"140px",backgroundColor:"white", width:"100%"}}>
+
+      </div>
       <div className="container">
         <h2 className={styles.eventh2}>All Events</h2>
         <Row
@@ -62,27 +77,16 @@ const Events = () => {
               optionFilterProp="label"
               onChange={handleLocationChange}
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: "Heydar Aliyev Palace",
-                  label: "Heydar Aliyev Palace",
-                },
-                {
-                  value: "National Gymnastics Arena",
-                  label: "National Gymnastics Arena",
-                },
-                {
-                  value: "International Mugham Center",
-                  label: "International Mugham Center",
-                },
-                { value: "Hayal Kahvesi", label: "Hayal Kahvesi" },
-              ]}
+              options={halls?.data?.map((hall) => ({
+                value: hall.name,
+                label: hall.name,
+              }))}
             />
           </Col>
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
             <Space direction="vertical" style={{ width: "100%" }}>
               <DatePicker
-                onChange={onChange}
+                onChange={handleDateChange}
                 style={{
                   width: "100%",
                 }}
@@ -105,8 +109,6 @@ const Events = () => {
             </div>
           </Col>
         </Row>
-      
-
         <Row
           gutter={{
             xs: 8,
@@ -115,39 +117,36 @@ const Events = () => {
             lg: 32,
           }}
         >
-          {events
-            .filter(
-              (event) =>
-                !selectedLocation || event.location === selectedLocation
-            )
-            .map((event) => (
-              <Col
-                key={event._id}
-                className="gutter-row"
-                span={8}
-                xs={24}
-                sm={24}
-                md={12}
-                lg={8}
-              >
-                <div className={styles.card}>
-                  <div className={styles.text}>
-                    <h3>{event.createdAt}</h3>
-                    <p>
-                      {event.location} • <span>{event.title}</span>
-                    </p>
-                  </div>
-                  <div className={styles.imgCont}>
-                    <img src={event.mainImg} alt="" className={styles.img1} />
-                    <img src={event.secondImg} alt="" className={styles.img2} />
-                  </div>
-                  <span className={styles.bn}>
-                    from
-                    <span className={styles.price}> {event.price}</span>
-                  </span>
+          {filteredEvents?.map((event) => (
+            <Col
+              key={event._id}
+              className="gutter-row"
+              span={8}
+              xs={24}
+              sm={24}
+              md={12}
+              lg={8}
+            >
+              <Link to={`/detail/${event._id}`}>
+              <div className={styles.card}>
+                <div className={styles.text}>
+                  <h3>{event.createdAt}</h3>
+                  <p>
+                    {event.location} • <span>{event.title}</span>
+                  </p>
                 </div>
-              </Col>
-            ))}
+                <div className={styles.imgCont}>
+                  <img src={event.mainImg} alt="" className={styles.img1} />
+                  <img src={event.secondImg} alt="" className={styles.img2} />
+                </div>
+                <span className={styles.bn}>
+                  from
+                  <span className={styles.price}> {event.price} ₼</span>
+                </span>
+              </div>
+              </Link>
+            </Col>
+          ))}
         </Row>
       </div>
     </div>

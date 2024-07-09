@@ -4,6 +4,7 @@ const event_controller=require('../controllers/events.controllers');
 const event_router=express.Router();
 
 event_router.get(endpoints.events.getAll,event_controller.getAll);
+console.error(endpoints.events.getAll);
 event_router.get(endpoints.events.getOne,event_controller.getOne);
 event_router.delete(endpoints.events.delete,event_controller.delete);
 event_router.post(endpoints.events.post,event_controller.post);

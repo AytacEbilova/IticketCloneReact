@@ -45,14 +45,18 @@ const Sport = () => {
 
   return (
     <div className={styles.concerts}>
+       <div className={styles.whiteheader}
+      style={{height:"140px",backgroundColor:"white", width:"100%"}}>
+
+      </div>
       <div className="container">
-        <h2 className={styles.eventh2}>All Events</h2>
+        <h2 className={styles.eventh2}>Sport</h2>
         <Row
           gutter={{
             xs: 8,
             sm: 16,
             md: 24,
-            lg: 32,
+            lg: 32
           }}
         >
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
@@ -144,7 +148,7 @@ const Sport = () => {
                   </div>
                   <span className={styles.bn}>
                     from
-                    <span className={styles.price}> {event.price}</span>
+                    <span className={styles.price}> {event.price} ₼ </span>
                   </span>
                 </div>
               </Col>

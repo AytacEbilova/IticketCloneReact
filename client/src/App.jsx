@@ -1,21 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './App.css'
+import './App.css';
 import { ROUTES } from './routes/ROUTES.jsx';
-import FavProvider from './context/favoriteContext.jsx';
-const router=createBrowserRouter(ROUTES)
+import  { WishlistProvider } from './context/favoriteContext.jsx';
+
+const router = createBrowserRouter(ROUTES);
+
 function App() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    setOrders(storedOrders);
+  }, []);
+
+  const addToOrders = (newOrders) => {
+    const updatedOrders = [...orders, ...newOrders];
+    setOrders(updatedOrders);
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+  };
 
   return (
-    <>
-    <FavProvider>
+    <WishlistProvider>
       <RouterProvider router={router} />
-    </FavProvider>
-    </>
-  )
+    </WishlistProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,53 +1,66 @@
-section{
+.section {
     background-color: #fafafa;
     padding: 150px 0;
-    .update{
-        background-color: white;
-        box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-        width: 70%;
-        border-radius: 10px;
-        height: 500px;
-        padding: 30px;
-    h1{
-font-size: 30px;
-line-height: 33px;
-color: black;
-font-weight: 500;
-    }
-    .all{
+  
+    .update {
+      background-color: white;
+      box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+      width: 70%;
+      border-radius: 10px;
+      padding: 30px;
+  
+      h1 {
+        font-size: 30px;
+        line-height: 33px;
+        color: black;
+        font-weight: 500;
+        font-family: "Poppins",sans-serif;
+      }
+  
+      .all {
         display: flex;
         gap: 30px;
         margin-top: 20px;
-        .inp{
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            .text{
-                width: 200px;
-                height: 40px;
-                border-radius: 8px;
-                border: 1px solid gainsboro;
-            }
-            p{
-                font-size: 16px;
-                font-weight: 500;
-                color:  #6b7280;
-                line-height: 24px;
-            }
-           
+  
+        .inp {
+        //   display: flex;
+        //   flex-direction: column;
+        //   gap: 10px;
+  
+          .text {
+            // width: 200px;
+            // height: 40px;
+            // border-radius: 8px;
+            // border: 1px solid gainsboro;
+            
+
+          }
+  
+          p {
+            font-size: 16px;
+            font-weight: 500;
+            color: #6b7280;
+            line-height: 24px;
+          }
         }
-    }
-    .btn{
+      }
+  
+      .btn {
         width: 300px;
         height: 50px;
         margin-top: 50px;
         border-radius: 10px;
-        background-color: #fd0;
+        background-color: #fbc02d;
         border: none;
         color: black;
         font-weight: 700;
         font-family: "Poppins";
         cursor: pointer;
+  
+        &:hover {
+          background-color: #f9cc59;
+        }
+      }
     }
-    }
-}
+  }
+  

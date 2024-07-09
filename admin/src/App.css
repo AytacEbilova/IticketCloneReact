@@ -219,3 +219,19 @@ body {
     }
   }
   
+
+  .report {
+    padding: 24px;
+    background: #f0f2f5;
+  }
+  
+  .ant-card {
+    background: #1f1f1f;
+    color: #fff;
+  }
+  
+  .ant-statistic-title,
+  .ant-statistic-content-value {
+    color: #fff;
+  }
+  

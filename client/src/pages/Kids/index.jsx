@@ -5,17 +5,19 @@ import styles from "../Concert/concert.module.scss";
 import { DatePicker, Space } from "antd";
 import { Slider } from "antd";
 import { useGetEventsQuery } from "../../services/redux/eventApi";
+import { useGetHallsQuery } from "../../services/redux/hallApi";
+import { Link } from "react-router-dom";
 
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 const Kids = () => {
-  const{data:events}=useGetEventsQuery();
+  const { data: events } = useGetEventsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [priceRange, setPriceRange] = useState([4, 2500]);
-
-
+  const [selectedDate, setSelectedDate] = useState(null);
+  const { data: halls } = useGetHallsQuery();
   const handleLocationChange = (value) => {
     setSelectedLocation(value);
   };
@@ -23,16 +25,45 @@ const Kids = () => {
     setPriceRange(value);
     filterEvents(value);
   };
-
-  const filterEvents = (priceRange) => {
-    const filtered = events?.data.filter(
-      (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
-    );
-    setFilteredEvents(filtered);
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
   };
 
+  const filterEvents = () => {
+    const filtered = events?.data
+      .filter((event) => event.categoryName === "kids")
+      .filter(
+        (event) => !selectedLocation || event.hall.name === selectedLocation
+      )
+      .filter((event) => {
+        if (selectedDate) {
+          const eventDate = new Date(event.createdAt);
+          const selectedDateObj = new Date(selectedDate);
+          return (
+            eventDate.getFullYear() === selectedDateObj.getFullYear() &&
+            eventDate.getMonth() === selectedDateObj.getMonth() &&
+            eventDate.getDate() === selectedDateObj.getDate()
+          );
+        }
+        return true;
+      })
+      .filter(
+        (event) => event.price >= priceRange[0] && event.price <= priceRange[1]
+      );
+    setFilteredEvents(filtered);
+  };
+  useEffect(() => {
+    if (events) {
+      filterEvents();
+    }
+  }, [events, selectedLocation, selectedDate, priceRange]);
+  console.log(filteredEvents);
   return (
     <div className={styles.concerts}>
+       <div className={styles.whiteheader}
+      style={{height:"140px",backgroundColor:"white", width:"100%"}}>
+
+      </div>
       <div className="container">
         <h2 className={styles.eventh2}>Kids</h2>
         <Row
@@ -50,27 +81,16 @@ const Kids = () => {
               optionFilterProp="label"
               onChange={handleLocationChange}
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: "Heydar Aliyev Palace",
-                  label: "Heydar Aliyev Palace",
-                },
-                {
-                  value: "National Gymnastics Arena",
-                  label: "National Gymnastics Arena",
-                },
-                {
-                  value: "International Mugham Center",
-                  label: "International Mugham Center",
-                },
-                { value: "Hayal Kahvesi", label: "Hayal Kahvesi" },
-              ]}
+              options={halls?.data?.map((hall) => ({
+                value: hall.name,
+                label: hall.name,
+              }))}
             />
           </Col>
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
             <Space direction="vertical" style={{ width: "100%" }}>
               <DatePicker
-                onChange={onChange}
+                onChange={handleDateChange}
                 style={{
                   width: "100%",
                 }}
@@ -102,21 +122,19 @@ const Kids = () => {
             lg: 32,
           }}
         >
-          {events
-            ?.data?.filter((event) => event.categoryName === "kids")
-            .filter(
-              (event) =>
-                !selectedLocation || event.location === selectedLocation
-            )
-            .map((event) => (
-              <Col
-                key={event._id}
-                className="gutter-row"
-                span={8}
-                xs={24}
-                sm={24}
-                md={12}
-                lg={8}
+          {filteredEvents?.map((event) => (
+            <Col
+              key={event._id}
+              className="gutter-row"
+              span={8}
+              xs={24}
+              sm={24}
+              md={12}
+              lg={8}
+            >
+              <Link
+                to={`/detail/${event._id}`}
+                style={{ textDecoration: "none" }}
               >
                 <div className={styles.card}>
                   <div className={styles.text}>
@@ -131,11 +149,12 @@ const Kids = () => {
                   </div>
                   <span className={styles.bn}>
                     from
-                    <span className={styles.price}> {event.price}</span>
+                    <span className={styles.price}> {event.price} ₼</span>
                   </span>
                 </div>
-              </Col>
-            ))}
+              </Link>
+            </Col>
+          ))}
         </Row>
       </div>
     </div>

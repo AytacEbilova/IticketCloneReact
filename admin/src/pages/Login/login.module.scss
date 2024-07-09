@@ -1,0 +1,51 @@
+
+$primary-color: #625bff;
+$primary-color-hover: #5049cc;
+$background-color: #1e1e1e;
+$form-background-color: #252525;
+$text-color: #fff;
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  background-color: $background-color;
+  // overflow: hidden;
+  .login-form {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: $form-background-color;
+    color: $text-color;
+    width: 400px;
+
+    .ant-typography {
+      color: $text-color;
+    }
+
+    .google-login {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .login-button {
+      width: 100%;
+      background-color: $primary-color;
+      border-color: $primary-color;
+
+      &:hover,
+      &:focus {
+        background-color: $primary-color-hover;
+        border-color: $primary-color-hover;
+      }
+    }
+  }
+
+  .login-image {
+    flex: 1;
+    background: url('path-to-your-image.jpg') center center / cover no-repeat;
+  }
+}

@@ -12,9 +12,10 @@ import {
   Button,
 } from "@mui/material";
 import { MdOutlineLogout } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useDeleteUserMutation, useGetOneUserQuery, useUpdateUserMutation } from "../../services/redux/userApi";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -73,9 +74,14 @@ const Profile = () => {
       phoneNumber,
       birthday,
       gender,
-      country,
+      country
     };
-    await updateUser({ _id: userId, payload: updatedUser }); 
+    await updateUser({id : userId, payload : updatedUser}); 
+    Swal.fire({
+      title: "Good job!",
+      text: "You clicked the button!",
+      icon: "success"
+    });
     localStorage.setItem("user", JSON.stringify(updatedUser));
     refetch();
   };
@@ -248,7 +254,7 @@ const Profile = () => {
             >
               My Cards
             </div>
-            <a href="/update-pass" style={{textDecoration:'none'}}>
+            <Link to={`/update-pass/${userId}`} style={{textDecoration:'none'}}>
             <div
               className={styles.tab}
               onClick={() => handleTabChange("update")}
@@ -264,7 +270,7 @@ const Profile = () => {
               
             </div>
 
-            </a>
+            </Link>
             <div
               className={styles.tab}
               onClick={handleDeleteAccount}

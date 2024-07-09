@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Select, Col, Row, DatePicker, Space, Slider } from "antd";
-import axios from "axios";
+
 import styles from "../Concert/concert.module.scss";
-import moment from "moment";
+
 import { useGetEventsQuery } from "../../services/redux/eventApi";
+import { useGetHallsQuery } from "../../services/redux/hallApi";
+import { Link } from "react-router-dom";
 
 const Concert = () => {
 
   const{data:events}=useGetEventsQuery();
+  const {data:halls}=useGetHallsQuery();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -31,7 +34,7 @@ const Concert = () => {
       .filter((event) => event.categoryName === "concert")
       .filter(
         (event) =>
-          !selectedLocation || event.location === selectedLocation
+          !selectedLocation || event.hall.name === selectedLocation
       )
       .filter((event) => {
         if (selectedDate) {
@@ -58,6 +61,10 @@ console.log(filteredEvents)
 
   return (
     <div className={styles.concerts}>
+       <div className={styles.whiteheader}
+      style={{height:"140px",backgroundColor:"white", width:"100%"}}>
+
+      </div>
       <div className="container">
         <h2 className={styles.eventh2}>Concert</h2>
         <Row
@@ -69,27 +76,16 @@ console.log(filteredEvents)
           }}
         >
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
-            <Select
+          <Select
               showSearch
               placeholder="Choose venue"
               optionFilterProp="label"
               onChange={handleLocationChange}
               style={{ width: "100%" }}
-              options={[
-                {
-                  value: "Heydar Aliyev Palace",
-                  label: "Heydar Aliyev Palace",
-                },
-                {
-                  value: "National Gymnastics Arena",
-                  label: "National Gymnastics Arena",
-                },
-                {
-                  value: "International Mugham Center",
-                  label: "International Mugham Center",
-                },
-                { value: "Hayal Kahvesi", label: "Hayal Kahvesi" },
-              ]}
+              options={halls?.data?.map((hall) => ({
+                value: hall.name,
+                label: hall.name,
+              }))}
             />
           </Col>
           <Col className="gutter-row" span={8} xs={24} sm={24} md={12} lg={8}>
@@ -136,6 +132,7 @@ console.log(filteredEvents)
               md={12}
               lg={8}
             >
+              <Link to={`/detail/${event._id}`}>
               <div className={styles.card}>
                 <div className={styles.text}>
                   <h3>{event.createdAt}</h3>
@@ -149,9 +146,10 @@ console.log(filteredEvents)
                 </div>
                 <span className={styles.bn}>
                   from
-                  <span className={styles.price}> {event.price}</span>
+                  <span className={styles.price}> {event.price} ₼</span>
                 </span>
               </div>
+              </Link>
             </Col>
           ))}
         </Row>

@@ -1,0 +1,26 @@
+.giftSect {
+    padding: 150px 0;
+    
+    .giftCard {
+        .giftImg {
+            position: relative;
+        }
+
+        .giftWord {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+        }
+        .giftP{
+            position: absolute;
+            top:55%;
+            left: 10%;
+        
+        }
+        .giftPersonLimit{
+            position: absolute;
+            top:60%;
+            left: 10%;
+        }
+    }
+}

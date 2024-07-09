@@ -7,12 +7,17 @@ const endpoints={
         post:"/users",
         update:"/users/:id",
         verify:'/verify/:token',
-        update:'/update-pass/:id/:token'
+        updatePass:'/update-pass/:id/:token'
     },
     login:{
         getAll:"/login",
         post:"/login",
      
+    },
+    admin:{
+        getAll:"/admin",
+        post:"/admin",
+        login:"/login"
     },
     events:{
         getAll:"/events",
@@ -27,7 +32,37 @@ const endpoints={
         delete:"/tickets/:id",
         post:"/tickets",
         update:"/tickets/:id",
-    }
+    },
+    seats:{
+        getAll:"/seats",
+        getOne:"/seats/:id",
+        delete:"/seats/:id",
+        post:"/seats",
+        update:"/seats/:id",
+    },
+    halls:{
+        getAll:"/halls",
+        getOne:"/halls/:id",
+        delete:"/halls/:id",
+        post:"/halls",
+        update:"/halls/:id",
+    },
+    coupons:{
+        getAll:"/coupons",
+        getOne:"/coupons/:id",
+        delete:"/coupons/:id",
+        post:"/coupons",
+        update:"/coupons/:id",
+    },
+    orders:{
+        getAll:"/orders",
+        getOne:"/orders/:id",
+        delete:"/orders/:id",
+        post:"/orders",
+        update:"/orders/:id",
+        update:"/coupons/:id",
+        orderMail:"/orderMail"
+    },
 
 }
 

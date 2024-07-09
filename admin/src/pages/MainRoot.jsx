@@ -1,22 +1,23 @@
-import React from 'react'
+// src/pages/MainRoot.jsx
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import Header from '../Header';
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-const MainRoot = () => {
+
+const MainRoot = ({ isAuthenticated }) => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
-  return (
-    <div>
-       <div className='grid-container'>
-        <Header OpenSidebar={OpenSidebar} />
-        <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
-        <Outlet/>
-      </div>
-    </div>
-  )
-}
 
-export default MainRoot
+  return (
+    <div className='grid-container'>
+      {isAuthenticated && <Header OpenSidebar={OpenSidebar} />}
+      {isAuthenticated && <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />}
+      <Outlet />
+    </div>
+  );
+};
+
+export default MainRoot;
