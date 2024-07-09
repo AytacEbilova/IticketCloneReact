@@ -118,7 +118,7 @@
             .text {
                 transition: transform 0.3s ease, color 0.3s ease;
                 position: relative;
-                top: 400px;
+                top: 380px;
                 text-align: left;
                 padding: 0 10px;
                 color: white;
@@ -402,6 +402,115 @@
                 line-height: 28px;
                 font-family: "Poppins", sans-serif;
                 letter-spacing: 0;
+            }
+        }
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .kids {
+        padding: 50px 0;
+
+        .eventh3 {
+            font-size: 28px;
+            line-height: 42px;
+            padding: 20px 0;
+        }
+
+        .cards {
+            gap: 40px;
+
+            .card {
+                .bn {
+                    font-size: 18px;
+                    left: 50%;
+                    bottom: 20px;
+                }
+
+                .text {
+                    top: 350px;
+
+                    h3 {
+                        font-size: 18px;
+                    }
+
+                    p {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .kids {
+        padding: 30px 0;
+
+        .eventh3 {
+            font-size: 24px;
+            line-height: 36px;
+            padding: 15px 0;
+        }
+
+        .cards {
+            gap: 20px;
+
+            .card {
+                .bn {
+                    font-size: 16px;
+                    left: 40%;
+                    bottom: 15px;
+                }
+
+                .text {
+                    top: 300px;
+
+                    h3 {
+                        font-size: 16px;
+                    }
+
+                    p {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .kids {
+        padding: 20px 0;
+
+        .eventh3 {
+            font-size: 20px;
+            line-height: 30px;
+            padding: 10px 0;
+        }
+
+        .cards {
+            gap: 10px;
+
+            .card {
+                .bn {
+                    font-size: 14px;
+                    left: 35%;
+                    bottom: 10px;
+                }
+
+                .text {
+                    top: 250px;
+
+                    h3 {
+                        font-size: 14px;
+                    }
+
+                    p {
+                        font-size: 10px;
+                    }
+                }
             }
         }
     }

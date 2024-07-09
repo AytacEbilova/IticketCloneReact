@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   useGetEventsQuery,
   useGetOneEventQuery,
@@ -21,7 +21,9 @@ const Detail = () => {
   const navigate = useNavigate();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useContext(WishlistContext);
-
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   const handleGetTickets = () => {
     navigate(`/select-seats/${id}`);
   };

@@ -226,9 +226,18 @@ const Home = () => {
             spaceBetween={30}
             autoplay={{ delay: 3000 }}
             breakpoints={{
-              640: { slidesPerView: 1, spaceBetween: 10 },
-              768: { slidesPerView: 2, spaceBetween: 20 },
-              1024: { slidesPerView: 3, spaceBetween: 30 },
+              320: {
+                // Mobile
+                slidesPerView: 1,
+              },
+              640: {
+                // Tablets
+                slidesPerView: 2,
+              },
+              1024: {
+                // Desktops
+                slidesPerView: 3,
+              },
             }}
           >
             {events &&

@@ -37,7 +37,7 @@
             font-size: 1.3rem;
             position: absolute;
             bottom: 50px;
-            left: 15%;
+            left: 10%;
 
             .price {
                 margin-right: 5px;
@@ -75,6 +75,8 @@
 }
 
 .sect2 {
+    padding: 50px 0;
+    background-color: #F9F9F9;
     a {
         color: inherit;
         text-decoration: inherit;
@@ -417,8 +419,8 @@
 }
 
 #getTicketSect6 {
-    // padding: 150px;
-    // background-color: #fafafa;
+    padding: 150px;
+    background-color: #fafafa;
 
     .eventItems {
         display: flex;

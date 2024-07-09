@@ -10,7 +10,7 @@ const usersSchema = new mongoose.Schema({
     birthday: { type: String },
     country: { type: String },
     gender: { type: String },
-    balance: { type: Number } 
+    balance: { type: Number,default:0 } 
 });
 
 module.exports = usersSchema;
